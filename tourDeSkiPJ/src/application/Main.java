@@ -2,6 +2,9 @@ package application;
 
 
 
+import java.time.LocalTime;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,12 +31,17 @@ import javafx.scene.control.Label;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
-	Time timer = new Time();
+	Timer timer = new Timer();
+	Contestant contestant = new Contestant();
+	SkiTimerLogic logic = new SkiTimerLogic();
+	
 	
 	Button start;
-	Button stop;
+//	Lägger till stop
+//	Button stop;
 	Button reset;
-	Button addParticipant;
+//	Används inte
+//	Button addParticipant;
 	Button nr0;
 	Button nr1;
 	Button nr2;
@@ -46,20 +54,22 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button nr9;
 	Button blank;
 	Button enter;
-	Button takeTime;
+//	Tror vi bara behöver en knapp för tid
+//	Button takeTime;
 	Button clear;
-	Button splitTime;
-	Button goalTime;
+	Button takeTime;
+	Button stop;
 	Scene scene1;
 	Scene scene2;
 	TextField search;
 	TextField listView;
 	Label header;
-	TableView<Skier> resultTable;
+	TableView<Contestant> resultTable;
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
+		logic.skierList();
 		try {
 		
 			primaryStage.setTitle("Ski timer");
@@ -71,9 +81,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start.setText("Start");
 			start.setMinSize(100, 40);
 			start.setMaxSize(100, 40);
-			start.setOnAction(e -> { timer.timerStart();
-			System.out.println("Klockan startas");
-			});
+			start.setOnAction(e -> {System.out.println("Klockan startas"); 
+										logic.startTime(); 
+									});
 			start.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 			start.setStyle( "-fx-background-color: #CCD8A2 ; "
 					+ "-fx-text-fill: #6F7178; "
@@ -81,14 +91,26 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
+			
+			/*takeTime.setOnAction(e -> {	
+				startNumber = search.getText(); 
+				for (Contestant skier : contestants) {		
+					if(skier.getStartNumber().equals(startNumber)) {
+						skier.addTime();
+					}
+				}
+				search.setText("");
+				System.out.println(contestants);//Listan med tider
+			});*/
 
 			
 			//Reset-knapp
 			reset = new Button();
 			reset.setText("Reset");
+//			Stoppa tid, töm fönster med lista.
 			reset.setOnAction(e -> {
 			System.out.println("Tidtagningen nollställs");
-			timer.timerStop();
+			timer.setStopTime();
 			});
 			reset.setMinSize(100, 40);
 			reset.setMaxSize(100, 40);
@@ -100,33 +122,33 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
 			
-			
-			
-			//Mellantidsknapp
-			splitTime = new Button();
-			splitTime.setText("Split time");
-//			splitTime.setOnAction(e -> );		
-			splitTime.setMinSize(100, 40);
-			splitTime.setMaxSize(100, 40);
-			splitTime.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
-			splitTime.setStyle(
-					 "-fx-background-color: #F8AB81 ; "
+			//Slutresultatsknapp
+			stop = new Button();
+			stop.setText("Stop");
+//			goalTime.setOnAction(e -> );
+			stop.setMinSize(100, 40);
+			stop.setMaxSize(100, 40);
+			stop.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
+			stop.setStyle(
+					 "-fx-background-color: #d16c45 ; "
 					+ "-fx-text-fill: #6F7178; "
 					+ "-fx-border-color: #6F7178; "
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-	
-
-			//Slutresultatsknapp
-			goalTime = new Button();
-			goalTime.setText("Goal time");
-//			goalTime.setOnAction(e -> );
-			goalTime.setMinSize(100, 40);
-			goalTime.setMaxSize(100, 40);
-			goalTime.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
-			goalTime.setStyle(
-					 "-fx-background-color: #d16c45 ; "
+			//Calls to stop the application
+			stop.setOnAction(event -> logic.quitApp("Application closed"));
+			
+			
+			//Mellantidsknapp
+			takeTime = new Button();
+			takeTime.setText("Take time");
+//			splitTime.setOnAction(e -> );		
+			takeTime.setMinSize(100, 40);
+			takeTime.setMaxSize(100, 40);
+			takeTime.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
+			takeTime.setStyle(
+					 "-fx-background-color: #F8AB81 ; "
 					+ "-fx-text-fill: #6F7178; "
 					+ "-fx-border-color: #6F7178; "
 					+ "-fx-border-width: 1px;"
@@ -316,47 +338,77 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			 		+ "-fx-border-radius: 3px;");
 			header.setAlignment(Pos.CENTER);
 			
+			/*btnSaveTime.setOnAction(e -> {	
+				startNumber = search.getText(); 
+				for (Contestant skier : contestants) {		
+					if(skier.getStartNumber().equals(startNumber)) {
+						skier.addTime();
+					}
+				}
+				search.setText("");
+				System.out.println(contestants);//Listan med tider
+			});
+			btnSaveFile.setOnAction(e -> {
+				try {
+					FileWriter fw = new FileWriter(groupId);
+					PrintWriter pw = new PrintWriter(fw);
+					for(Contestant skier : contestants) {
+						pw.println(skier);
+					}
+					pw.close();
+				} 
+				catch (IOException eIO) {
+					System.out.println("Error - Cannot write to file " +groupId);
+				}
+			});*/
 			
 			
 			//Listan med åkare
-			ObservableList<Skier> resultList = FXCollections.observableArrayList();
-			resultList.add(new Skier("Andrea", 22, "33 min"));
-			resultList.add(new Skier("Erik", 34, "35 min"));
-			resultList.add(new Skier("Katarina", 14, "48 min"));
-			resultList.add(new Skier("Bastian", 26, "36 min"));
+			ObservableList<Contestant> resultList = FXCollections.observableArrayList(logic.contestants);
+//			resultList.addAll(logic.contestants);
+//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
+//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
+//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
+			
 			
 			
 			//Kolumner till resultattabell
-			TableColumn <Skier, String> nameColumn = new TableColumn <>("NAME");
-			nameColumn.setMinWidth(200);
-//			nameColumn.setMaxWidth(142);
-			nameColumn.setCellValueFactory(new PropertyValueFactory<>( "name"));
 			
-			TableColumn <Skier, Integer> nrColumn = new TableColumn <> ("NR");
+
+			TableColumn <Contestant, String> nrColumn = new TableColumn <> ("NR");
 			nrColumn.setMinWidth(22);
-//			nrColumn.setMaxWidth(50);
-			nrColumn.setCellValueFactory(new PropertyValueFactory<> ("number"));
+			nrColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
+			nrColumn.setCellValueFactory(new PropertyValueFactory<> ("startNumber"));
+			
+			TableColumn <Contestant, String> nameColumn = new TableColumn <>("Name");
+			nameColumn.setMinWidth(150);
+			nameColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
+			nameColumn.setCellValueFactory(new PropertyValueFactory<>( "name"));
 					
-			TableColumn <Skier, String> timeColumn = new TableColumn <> ("TIME"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
-			timeColumn.setMinWidth(50);
-//			timeColumn.setMaxWidth(50);
-			timeColumn.setCellValueFactory(new PropertyValueFactory <> ("time"));
+			TableColumn <Contestant, String> timeColumn1 = new TableColumn <> ("SPLIT"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
+			timeColumn1.setMinWidth(60);
+			timeColumn1.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
+			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("times"));
 			
-//			TableColumn <Time, Integer> positionColumn = new TableColumn <> ("");
-//			positionColumn.setMinWidth(20);
+			TableColumn <Contestant, String> timeColumn2 = new TableColumn <>("GOAL"); // Kopplat till samma som timeColumn1 för nu.
+			timeColumn2.setMinWidth(60);
+			timeColumn2.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
+			timeColumn2.setCellValueFactory(new PropertyValueFactory <> ("times"));
 			
+
 
 			
 			
 			resultTable = new TableView<>();
 			resultTable.setItems(resultList);
-			resultTable.getColumns().addAll( timeColumn, nameColumn, nrColumn );
+			resultTable.getColumns().addAll(nrColumn, nameColumn, timeColumn1);
 			resultTable.setMinSize(292, 250);
 			resultTable.setMaxSize(292, 250);
 			resultTable.setStyle("-fx-border-color: #6F7178;"
 			 		+ "-fx-border-width: 1px;"
 			 		+ "-fx-background-radius: 3px; "
 			 		+ "-fx-border-radius: 3px;");
+	
 			
 			//Grid till sifferknapparna
 			GridPane grid = new GridPane();
@@ -383,7 +435,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			bigButtons.setPadding(new Insets(0));
 			bigButtons.setSpacing(2);
 			bigButtons.alignmentProperty().setValue(Pos.CENTER);
-			bigButtons.getChildren().addAll(start, reset,  splitTime, goalTime);
+			bigButtons.getChildren().addAll(start, reset, stop, takeTime);
 			
 			
 			//HBox till bottendelen av BorderPane

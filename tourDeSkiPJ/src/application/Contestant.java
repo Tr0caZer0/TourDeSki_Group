@@ -1,14 +1,18 @@
 package application;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contestant {
+public class Contestant extends Timer {
 	
 	private String startNumber;
 	private String name;
-	private List<LocalTime> times = new ArrayList<LocalTime>();
+	private List<String> times = new ArrayList<String>();
+	private DateTimeFormatter thisTime = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	public Contestant() {	
 	}
@@ -21,12 +25,6 @@ public class Contestant {
 		this.startNumber = startNumber;
 		this.name = name;
 	}
-	
-	public Contestant(String startNumber, String name, List<LocalTime> times) {
-		this.startNumber = startNumber;
-		this.name = name;
-		this.times = times;
-	}
 
 	public String getStartNumber() {
 		return startNumber;
@@ -36,7 +34,7 @@ public class Contestant {
 		return name;
 	}
 
-	public List<LocalTime> getTimes() {
+	public List<String> getTimes() {
 		return times;
 	}
 
@@ -48,18 +46,18 @@ public class Contestant {
 		this.name = name;
 	}
 
-	public void setTimes(List<LocalTime> times) {
+	public void setTimes(List<String> times) {
 		this.times = times;
 	}
 	// Metod för att lägga till tid till List<LocalTime> times
-	public void addTime() {
+	/*public void addTime() {
 		times.add(LocalTime.now());
 		
-	}
+	}*/
 
 	@Override
 	public String toString() {
-		return startNumber + "," + name + "," + times;
+		return startNumber + "," + name + "," + startTime + "," + intervalTime + "," + getCurrentTime() ;
 	}
 	
 	

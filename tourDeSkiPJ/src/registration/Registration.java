@@ -30,6 +30,7 @@ public class Registration {
 			case 0:
 				continueLoop=false;
 				System.out.println("Registration cancelled");
+				System.exit(0);
 				break;
 
 			case 1:

@@ -2,34 +2,44 @@ package application;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Timer {
 
-    private Instant startTime;
-    private Instant endTime;
-    private boolean isRunning;
-    private List<Duration> lapTimes;
+    protected Instant startTime;
+    protected Instant endTime;
+    protected String intervalTime;
+    protected boolean isRunning;
+    protected List<Duration> lapTimes;
 
     public Timer() {
         lapTimes = new ArrayList<>();
         isRunning = false;
     }
 
-    public void startTimer() {
+    public void setStartTime() {
         if (!isRunning) {
             startTime = Instant.now();
             isRunning = true;
             lapTimes.clear(); 
         }
     }
-
-    public void stopTimer() {
+    
+    public String getStartTimer() {
+    	return formatInstant(startTime);
+    }
+    
+    public void setStopTime() {
         if (isRunning) {
             endTime = Instant.now();
             isRunning = false;
         }
+    }
+    
+    public String getStopTimer() {
+    	return formatInstant(endTime);
     }
 
     public void resetTimer() {
@@ -39,13 +49,22 @@ public class Timer {
         lapTimes.clear();
     }
 
-    public void lapTime() {
+    /*public void lapTime() {
         if (isRunning) {
             Instant sliptTime = Instant.now();
             Duration duration = Duration.between(startTime, sliptTime);
             lapTimes.add(duration);
         }
+    }*/
+    
+    public void lapTime() {
+        if (isRunning) {
+            Instant splitTime = Instant.now();
+            Duration duration = Duration.between(startTime, splitTime);
+            intervalTime = formatDuration(duration);
+        }
     }
+    
 
     public String getCurrentTime() {
         if (isRunning) {
@@ -72,5 +91,10 @@ public class Timer {
         long minutes = duration.toMinutesPart();
         long seconds = duration.toSecondsPart();
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+    private String formatInstant(Instant instant) {
+    	DateTimeFormatter formatInstantTime = DateTimeFormatter.ofPattern("HH:mm:ss");
+    	String formattedTime = formatInstantTime.format(instant);
+        return formattedTime;
     }
 }
