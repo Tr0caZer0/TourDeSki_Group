@@ -2,6 +2,7 @@ package application;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,9 @@ public class Timer {
     public Timer() {
         lapTimes = new ArrayList<>();
         isRunning = false;
+
+    	this.setStartTime();
+    	this.setStopTime();
     }
 
     public void setStartTime() {
@@ -28,7 +32,12 @@ public class Timer {
     }
     
     public String getStartTimer() {
-    	return formatInstant(startTime);
+    	if(startTime != null) {
+    		return formatInstant(startTime);
+    	}else {
+    		return "Null";
+    	}
+    	
     }
     
     public void setStopTime() {
@@ -94,7 +103,12 @@ public class Timer {
     }
     private String formatInstant(Instant instant) {
     	DateTimeFormatter formatInstantTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-    	String formattedTime = formatInstantTime.format(instant);
+    	String formattedTime = formatInstantTime.format(instant.atZone(ZoneId.systemDefault()));
         return formattedTime;
+    }
+    
+    @Override
+    public String toString() {
+    	return startTime + "," + intervalTime + "," + getCurrentTime();
     }
 }

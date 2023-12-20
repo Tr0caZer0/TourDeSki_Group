@@ -12,7 +12,6 @@ public class Contestant extends Timer {
 	private String startNumber;
 	private String name;
 	private List<String> times = new ArrayList<String>();
-	private DateTimeFormatter thisTime = DateTimeFormatter.ofPattern("HH:mm:ss");
 	
 	public Contestant() {	
 	}
@@ -49,15 +48,24 @@ public class Contestant extends Timer {
 	public void setTimes(List<String> times) {
 		this.times = times;
 	}
+	
+	 public void lapTime1() {
+	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	        times.add(getStartTimer());
+	    }
+	 public void lapTime2() {
+	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	        times.add(getCurrentTime());
+	    }
 	// Metod för att lägga till tid till List<LocalTime> times
-	/*public void addTime() {
-		times.add(LocalTime.now());
+	public List<String> addTime() {
+		return times;
 		
-	}*/
+	}
 
 	@Override
 	public String toString() {
-		return startNumber + "," + name + "," + startTime + "," + intervalTime + "," + getCurrentTime() ;
+		return startNumber + "," + name + "," + times;
 	}
 	
 	

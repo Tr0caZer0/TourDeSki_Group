@@ -91,17 +91,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-			
-			/*takeTime.setOnAction(e -> {	
-				startNumber = search.getText(); 
-				for (Contestant skier : contestants) {		
-					if(skier.getStartNumber().equals(startNumber)) {
-						skier.addTime();
-					}
-				}
-				search.setText("");
-				System.out.println(contestants);//Listan med tider
-			});*/
 
 			
 			//Reset-knapp
@@ -143,7 +132,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			//Mellantidsknapp
 			takeTime = new Button();
 			takeTime.setText("Take time");
-//			splitTime.setOnAction(e -> );		
+			takeTime.setOnAction(e ->{ System.out.println("Taking Intrevall time");
+				logic.takeIntervall();
+				
+			});		
 			takeTime.setMinSize(100, 40);
 			takeTime.setMaxSize(100, 40);
 			takeTime.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
