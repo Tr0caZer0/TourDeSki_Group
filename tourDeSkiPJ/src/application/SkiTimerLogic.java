@@ -57,18 +57,23 @@ public class SkiTimerLogic extends Contestant{
 	}*/
 //	The time that the race starts
 	public void startTime() {
-		setStartTime();
-		addTimeToContestant("Start");	
-	}
-	
-	public void takeIntervall() {
-		lapTime();
-		addTimeToContestant("Lap");	
-	}
-	
-	public void addTimeToContestant(String option) {
-		List<String> allcompetitorDetails = new ArrayList<>();
 		
+		addTimeToContestant("Start", null);	
+	}
+	
+	public void takeIntervall(String startNumber) {
+		
+		for (Contestant skier : contestants) {		
+			if(skier.getStartNumber().equals(startNumber)) {
+//				lapTime();
+				addTimeToContestant("Lap", startNumber);	
+			}
+		}
+	}
+	
+	public List<String> addTimeToContestant(String option, String startNumber) {
+		List<String> allcompetitorDetails = new ArrayList<>();
+		setStartTime();
 		if(option.equals("Start")) {
 			for(Contestant skier : contestants) {
 				skier.lapTime1();
@@ -77,13 +82,16 @@ public class SkiTimerLogic extends Contestant{
 		}
 		if(option.equals("Lap")) {
 			for(Contestant skier : contestants) {
+				if(skier.getStartNumber().equals(startNumber)) {
 				skier.lapTime2();
 				allcompetitorDetails.add(skier.toString());
+				}
 			}
 		}
 		
 		
 		System.out.println(allcompetitorDetails);
+		return allcompetitorDetails;
 	}
 	
 	public void quitApp(String message) {

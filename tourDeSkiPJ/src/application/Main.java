@@ -128,12 +128,24 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			//Calls to stop the application
 			stop.setOnAction(event -> logic.quitApp("Application closed"));
 			
+//			btnSaveTime.setOnAction(e -> {	
+//				startNumber = search.getText(); 
+//				for (Contestant skier : contestants) {		
+//					if(skier.getStartNumber().equals(startNumber)) {
+//						skier.addTime();
+//					}
+//				}
+//				search.setText("");
+//				System.out.println(contestants);//Listan med tider
+//			});
 			
 			//Mellantidsknapp
 			takeTime = new Button();
 			takeTime.setText("Take time");
 			takeTime.setOnAction(e ->{ System.out.println("Taking Intrevall time");
-				logic.takeIntervall();
+				String startNumber = search.getText();
+				logic.takeIntervall(startNumber);
+				search.setText("");
 				
 			});		
 			takeTime.setMinSize(100, 40);

@@ -20,7 +20,7 @@ public class Timer {
         isRunning = false;
 
     	this.setStartTime();
-    	this.setStopTime();
+//    	this.setStopTime();
     }
 
     public void setStartTime() {
@@ -57,14 +57,6 @@ public class Timer {
         endTime = null;
         lapTimes.clear();
     }
-
-    /*public void lapTime() {
-        if (isRunning) {
-            Instant sliptTime = Instant.now();
-            Duration duration = Duration.between(startTime, sliptTime);
-            lapTimes.add(duration);
-        }
-    }*/
     
     public void lapTime() {
         if (isRunning) {
