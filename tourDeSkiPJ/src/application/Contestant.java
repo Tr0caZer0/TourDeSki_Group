@@ -1,17 +1,12 @@
 package application;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 public class Contestant extends Timer {
 	
 	private String startNumber;
 	private String name;
-	private List<String> times = new ArrayList<String>();
+	private String times;
+	private String intervall;
+	private String goal;
 	
 	public Contestant() {	
 	}
@@ -33,7 +28,7 @@ public class Contestant extends Timer {
 		return name;
 	}
 
-	public List<String> getTimes() {
+	public String getTimes() {
 		return times;
 	}
 
@@ -45,27 +40,48 @@ public class Contestant extends Timer {
 		this.name = name;
 	}
 
-	public void setTimes(List<String> times) {
+	public void setTimes(String times) {
 		this.times = times;
 	}
 	
 	 public void lapTime1() {
 	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        times.add(getStartTimer());
+	        times = getStartTimer();
 	    }
 	 public void lapTime2() {
 	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        times.add(getCurrentTime());
+	        intervall = getCurrentTime();
+	    }
+	 
+	 public void lapTime3() {
+	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	        goal = getCurrentTime();
 	    }
 	// Metod för att lägga till tid till List<LocalTime> times
-	public List<String> addTime() {
+	public String addTime() {
 		return times;
 		
 	}
 
 	@Override
 	public String toString() {
-		return startNumber + "," + name + "," + times;
+		return startNumber + "," + name + "," + intervall + "," + goal;
+	}
+
+	public String getIntervall() {
+		return intervall;
+	}
+
+	public void setIntervall(String intervall) {
+		this.intervall = intervall;
+	}
+
+	public String getGoal() {
+		return goal;
+	}
+
+	public void setGoal(String goal) {
+		this.goal = goal;
 	}
 	
 	

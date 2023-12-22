@@ -2,8 +2,6 @@ package application;
 
 
 
-import java.time.LocalTime;
-import java.util.List;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -12,7 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+//import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -27,6 +25,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Label;
+import javafx.application.Platform;
 
 
 public class Main extends Application implements EventHandler<ActionEvent> {
@@ -39,7 +38,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button start;
 //	Lägger till stop
 //	Button stop;
-	Button reset;
 //	Används inte
 //	Button addParticipant;
 	Button nr0;
@@ -54,8 +52,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button nr9;
 	Button blank;
 	Button enter;
-//	Tror vi bara behöver en knapp för tid
-//	Button takeTime;
+
+	Button finish;
 	Button clear;
 	Button takeTime;
 	Button stop;
@@ -65,6 +63,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	TextField listView;
 	Label header;
 	TableView<Contestant> resultTable;
+	ObservableList<Contestant> resultList;
 	
 	
 	@Override
@@ -82,7 +81,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start.setMinSize(100, 40);
 			start.setMaxSize(100, 40);
 			start.setOnAction(e -> {System.out.println("Klockan startas"); 
-										logic.startTime(); 
+										logic.addTimeToContestant("Start", null);
+										Platform.runLater(() -> {
+										    resultList.setAll(logic.contestants);
+										});
 									});
 			start.setFont(Font.font("Arial", FontWeight.BOLD, 10));
 			start.setStyle( "-fx-background-color: #CCD8A2 ; "
@@ -94,17 +96,22 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 			
 			//Reset-knapp
-			reset = new Button();
-			reset.setText("Reset");
+			finish = new Button();
+			finish.setText("Finish");
 //			Stoppa tid, töm fönster med lista.
-			reset.setOnAction(e -> {
-			System.out.println("Tidtagningen nollställs");
-			timer.setStopTime();
+			finish.setOnAction(e -> {
+			System.out.println("Sluttid");
+			String startNumber = search.getText();
+			logic.addTimeToContestant("Goal", startNumber);	
+			search.setText("");
+			Platform.runLater(() -> {
+			    resultList.setAll(logic.contestants);
 			});
-			reset.setMinSize(100, 40);
-			reset.setMaxSize(100, 40);
-			reset.setFont(Font.font("Arial", FontWeight.BOLD,10 ));
-			reset.setStyle( "-fx-background-color: #EFE2AF; "
+			});
+			finish.setMinSize(100, 40);
+			finish.setMaxSize(100, 40);
+			finish.setFont(Font.font("Arial", FontWeight.BOLD,10 ));
+			finish.setStyle( "-fx-background-color: #EFE2AF; "
 					+ "-fx-text-fill: #6F7178; "
 					+ "-fx-border-color: #6F7178; "
 					+ "-fx-border-width: 1px;"
@@ -127,26 +134,17 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-border-radius: 3px;");
 			//Calls to stop the application
 			stop.setOnAction(event -> logic.quitApp("Application closed"));
-			
-//			btnSaveTime.setOnAction(e -> {	
-//				startNumber = search.getText(); 
-//				for (Contestant skier : contestants) {		
-//					if(skier.getStartNumber().equals(startNumber)) {
-//						skier.addTime();
-//					}
-//				}
-//				search.setText("");
-//				System.out.println(contestants);//Listan med tider
-//			});
-			
+
 			//Mellantidsknapp
 			takeTime = new Button();
 			takeTime.setText("Take time");
 			takeTime.setOnAction(e ->{ System.out.println("Taking Intrevall time");
 				String startNumber = search.getText();
-				logic.takeIntervall(startNumber);
+				logic.addTimeToContestant("Lap", startNumber);
 				search.setText("");
-				
+				Platform.runLater(() -> {
+				    resultList.setAll(logic.contestants);
+				});
 			});		
 			takeTime.setMinSize(100, 40);
 			takeTime.setMaxSize(100, 40);
@@ -342,41 +340,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			 		+ "-fx-border-radius: 3px;");
 			header.setAlignment(Pos.CENTER);
 			
-			/*btnSaveTime.setOnAction(e -> {	
-				startNumber = search.getText(); 
-				for (Contestant skier : contestants) {		
-					if(skier.getStartNumber().equals(startNumber)) {
-						skier.addTime();
-					}
-				}
-				search.setText("");
-				System.out.println(contestants);//Listan med tider
-			});
-			btnSaveFile.setOnAction(e -> {
-				try {
-					FileWriter fw = new FileWriter(groupId);
-					PrintWriter pw = new PrintWriter(fw);
-					for(Contestant skier : contestants) {
-						pw.println(skier);
-					}
-					pw.close();
-				} 
-				catch (IOException eIO) {
-					System.out.println("Error - Cannot write to file " +groupId);
-				}
-			});*/
+			
 			
 			
 			//Listan med åkare
-			ObservableList<Contestant> resultList = FXCollections.observableArrayList(logic.contestants);
-//			resultList.addAll(logic.contestants);
-//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
-//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
-//			resultList.add(new Contestant(logic.getName(), logic.getStartNumber()));
-			
-			
-			
-			//Kolumner till resultattabell
+			resultList = FXCollections.observableArrayList(logic.contestants);
 			
 
 			TableColumn <Contestant, String> nrColumn = new TableColumn <> ("NR");
@@ -388,24 +356,23 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			nameColumn.setMinWidth(150);
 			nameColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			nameColumn.setCellValueFactory(new PropertyValueFactory<>( "name"));
+			
+//			Add startTime
 					
 			TableColumn <Contestant, String> timeColumn1 = new TableColumn <> ("SPLIT"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
 			timeColumn1.setMinWidth(60);
 			timeColumn1.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
-			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("times"));
+			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("intervall"));
 			
 			TableColumn <Contestant, String> timeColumn2 = new TableColumn <>("GOAL"); // Kopplat till samma som timeColumn1 för nu.
 			timeColumn2.setMinWidth(60);
 			timeColumn2.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
-			timeColumn2.setCellValueFactory(new PropertyValueFactory <> ("times"));
-			
-
-
+			timeColumn2.setCellValueFactory(new PropertyValueFactory <> ("goal"));
 			
 			
 			resultTable = new TableView<>();
 			resultTable.setItems(resultList);
-			resultTable.getColumns().addAll(nrColumn, nameColumn, timeColumn1);
+			resultTable.getColumns().addAll(nrColumn, nameColumn, timeColumn1, timeColumn2);
 			resultTable.setMinSize(292, 250);
 			resultTable.setMaxSize(292, 250);
 			resultTable.setStyle("-fx-border-color: #6F7178;"
@@ -439,7 +406,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			bigButtons.setPadding(new Insets(0));
 			bigButtons.setSpacing(2);
 			bigButtons.alignmentProperty().setValue(Pos.CENTER);
-			bigButtons.getChildren().addAll(start, reset, stop, takeTime);
+			bigButtons.getChildren().addAll(start,takeTime, finish, stop);
 			
 			
 			//HBox till bottendelen av BorderPane

@@ -11,7 +11,7 @@ public class Timer {
 
     protected Instant startTime;
     protected Instant endTime;
-    protected String intervalTime;
+    protected String intervallTime;
     protected boolean isRunning;
     protected List<Duration> lapTimes;
 
@@ -20,7 +20,6 @@ public class Timer {
         isRunning = false;
 
     	this.setStartTime();
-//    	this.setStopTime();
     }
 
     public void setStartTime() {
@@ -62,7 +61,7 @@ public class Timer {
         if (isRunning) {
             Instant splitTime = Instant.now();
             Duration duration = Duration.between(startTime, splitTime);
-            intervalTime = formatDuration(duration);
+            intervallTime = formatDuration(duration);
         }
     }
     
@@ -99,8 +98,8 @@ public class Timer {
         return formattedTime;
     }
     
-    @Override
-    public String toString() {
-    	return startTime + "," + intervalTime + "," + getCurrentTime();
-    }
+//    @Override
+//    public String toString() {
+//    	return startTime + "," + intervallTime + "," + getCurrentTime();
+//    }
 }

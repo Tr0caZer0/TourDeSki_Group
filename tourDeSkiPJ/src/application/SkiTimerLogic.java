@@ -4,16 +4,21 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SkiTimerLogic extends Contestant{
 	public List <Contestant> contestants = new ArrayList<Contestant>();
-	public List <Timer> times = new ArrayList<Timer>();
 	Timer time = new Timer();
 	Contestant contestant = new Contestant();
+	
+	public int counter1;
+	public int counter2;
+	
+	public SkiTimerLogic() {
+		counter1 = contestants.size();
+		counter1 = contestants.size();
+	}
 	
 	private String startNumber;
 	private String groupId;
@@ -30,14 +35,14 @@ public class SkiTimerLogic extends Contestant{
 				String[] part = line.split(",");
 				startNumber = part[0];
 				String name = part[1];
-//				part[2] = getStartTimer();
-//				String test = part[2];
+				
 				Contestant skier = new Contestant(startNumber,name);
 				System.out.println(skier);
 				contestants.add(skier);
 				
 			}
-
+			counter1 = contestants.size();
+			counter2 = contestants.size();
 			br.close();
 
 		}
@@ -46,52 +51,53 @@ public class SkiTimerLogic extends Contestant{
 
 		}
 	}// End SkierList() method
+
+
 	
-//	The time that the race starts	
-	/*public void saveTime() {
-		for (Contestant skier : contestants) {		
-			if(skier.getStartNumber().equals(startNumber)) {
-				skier.startTimer();
-			}
-		}
-	}*/
-//	The time that the race starts
-	public void startTime() {
+	public void addTimeToContestant(String option, String startNumber) {
+		System.out.println(counter1);
+		System.out.println(counter2);
 		
-		addTimeToContestant("Start", null);	
-	}
-	
-	public void takeIntervall(String startNumber) {
-		
-		for (Contestant skier : contestants) {		
-			if(skier.getStartNumber().equals(startNumber)) {
-//				lapTime();
-				addTimeToContestant("Lap", startNumber);	
-			}
-		}
-	}
-	
-	public List<String> addTimeToContestant(String option, String startNumber) {
-		List<String> allcompetitorDetails = new ArrayList<>();
-		setStartTime();
+//		For the moment giving start time to keep track. To be removed later on. 
 		if(option.equals("Start")) {
+			setStartTime();
 			for(Contestant skier : contestants) {
 				skier.lapTime1();
-				allcompetitorDetails.add(skier.toString());
+				skier.getTimes();
 			}
 		}
+//		Takes intervall.
 		if(option.equals("Lap")) {
 			for(Contestant skier : contestants) {
-				if(skier.getStartNumber().equals(startNumber)) {
+				if(skier.getStartNumber().equals(startNumber) && (counter1 >0)) {
 				skier.lapTime2();
-				allcompetitorDetails.add(skier.toString());
+				skier.getIntervall();
+				counter1--;
 				}
 			}
 		}
 		
+		if(option.equals("Goal")) {
+			for(Contestant skier : contestants) {
+				if(skier.getStartNumber().equals(startNumber) && (counter2 >0)) {
+				skier.lapTime3();
+				skier.getGoal();
+				counter2--;
+				}
+			}
+		}
 		
-		System.out.println(allcompetitorDetails);
-		return allcompetitorDetails;
+		if(counter1 <= 0 && counter2 <= 0) {
+			time.setStopTime();
+			System.out.println("Competition over");
+		}
+		
+		System.out.println(contestants);
+	}
+	
+//	call on a method that organises the competitors in descending order based on index for . decendedOrderList
+	public void decendedOrderList(){
+		
 	}
 	
 	public void quitApp(String message) {
