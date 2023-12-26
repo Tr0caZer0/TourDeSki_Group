@@ -133,7 +133,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
 			//Calls to stop the application
-			stop.setOnAction(event -> logic.quitApp("Application closed"));
+			
+			stop.setOnAction(event -> 
+			logic.quitApp("Application closed"));
 
 			//Mellantidsknapp
 			takeTime = new Button();

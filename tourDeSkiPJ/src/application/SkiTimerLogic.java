@@ -1,23 +1,18 @@
 package application;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class SkiTimerLogic extends Contestant{
 	public List <Contestant> contestants = new CopyOnWriteArrayList<>();
-	public TreeMap<Integer, String> intervallCompetitorOrder = new TreeMap<>();
-	public TreeMap<Integer, String> goalCompetitorOrder = new TreeMap<>();
-	
 	Timer time = new Timer();
 	Contestant contestant = new Contestant();
 	
@@ -34,6 +29,7 @@ public class SkiTimerLogic extends Contestant{
 	
 	public void skierList() {
 		
+		//Changed to choice based
 		groupId="Race1.txt";
 		//Läser in textfil och skapar listan contestants av våra Contestant objekt
 		try(FileReader fr = new FileReader(new File(groupId))) {	
@@ -82,11 +78,6 @@ public class SkiTimerLogic extends Contestant{
 				skier.lapTime2();
 				skier.getIntervall();
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getIntervall())));
-//				Collections.reverse(contestants);
-//				intervallCompetitorOrder.put(stringToInt(skier.getIntervall()), startNumber);
-				
-//				intervallCompetitorOrder.put(stringToInt(skier.getIntervall()), startNumber);
-//				toUpdateOrder(intervallCompetitorOrder);
 				counter1--;
 				}
 			}
@@ -98,15 +89,13 @@ public class SkiTimerLogic extends Contestant{
 				skier.lapTime3();
 				skier.getGoal();
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getGoal())));
-//				Collections.reverse(contestants);
-//				goalCompetitorOrder.put(stringToInt(skier.getGoal()), startNumber);
-//				toUpdateOrder();
 				counter2--;
 				}
 			}
 		}
 		
 		if(counter1 <= 0 && counter2 <= 0) {
+			saveCompetitionScore();
 			time.setStopTime();
 			System.out.println("Competition over");
 		}
@@ -114,26 +103,28 @@ public class SkiTimerLogic extends Contestant{
 		
 		System.out.println(contestants);
 	}
-//	
-//	private void toUpdateOrder(TreeMap<Integer, String> mapList) {
-//		
-//		for(Map.Entry<Integer, String> orderContestant : mapList.entrySet()) {
-//			
-//			for(Contestant skier : contestants) {
-//				if(orderContestant.getValue().equals(skier.getStartNumber())) {
-//					
-//				}
-//			}
-//		}
-//		
-//	}
 
-
-
-//	private void toUpdateOrder() 
-//		
-//	}
 	  
+	public void saveCompetitionScore() {
+//		Should correlate to the competitionId that the race is based on. 
+		String competitionId = "savedCompetition1.txt";
+		try(BufferedWriter toSaveData = new BufferedWriter(new FileWriter(competitionId))){
+			
+			for(Contestant skier : contestants) {
+				toSaveData.newLine();
+				toSaveData.append(skier.toString());
+			}
+			
+			toSaveData.close();
+			
+		}catch(IOException e) {
+			System.out.println("Error - Cannot create file" + e);
+		}
+		
+	}
+
+
+
 	public int stringToInt(String time) {
 		
 		 if (time == null) {
@@ -149,12 +140,11 @@ public class SkiTimerLogic extends Contestant{
 		return takeHours + takeMinutes + takeSeconds;
 		
 	}
-	
-//	call on a method that organises the competitors in descending order 
-//	using stringToInt and compare the times for each contestant.
-
 	public void quitApp(String message) {
 		System.out.println(message);
+//		Need to add further FX code if we want this option. New window should open. 
+		System.out.print("Do you want to save the compitition data? \n Enter 1 for Yes or 0 for No: ");
+		
 		System.exit(0);
 	}
 }// End Logic class
