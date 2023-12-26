@@ -346,7 +346,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			//Listan med åkare
 			resultList = FXCollections.observableArrayList(logic.contestants);
 			
-
+// JUst as I can write over the time i must be able to write over the startnumber and name. 
 			TableColumn <Contestant, String> nrColumn = new TableColumn <> ("NR");
 			nrColumn.setMinWidth(22);
 			nrColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");

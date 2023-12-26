@@ -5,10 +5,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class SkiTimerLogic extends Contestant{
-	public List <Contestant> contestants = new ArrayList<Contestant>();
+	public List <Contestant> contestants = new CopyOnWriteArrayList<>();
+	public TreeMap<Integer, String> intervallCompetitorOrder = new TreeMap<>();
+	public TreeMap<Integer, String> goalCompetitorOrder = new TreeMap<>();
+	
 	Timer time = new Timer();
 	Contestant contestant = new Contestant();
 	
@@ -72,6 +81,12 @@ public class SkiTimerLogic extends Contestant{
 				if(skier.getStartNumber().equals(startNumber) && (counter1 >0)) {
 				skier.lapTime2();
 				skier.getIntervall();
+				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getIntervall())));
+//				Collections.reverse(contestants);
+//				intervallCompetitorOrder.put(stringToInt(skier.getIntervall()), startNumber);
+				
+//				intervallCompetitorOrder.put(stringToInt(skier.getIntervall()), startNumber);
+//				toUpdateOrder(intervallCompetitorOrder);
 				counter1--;
 				}
 			}
@@ -82,6 +97,10 @@ public class SkiTimerLogic extends Contestant{
 				if(skier.getStartNumber().equals(startNumber) && (counter2 >0)) {
 				skier.lapTime3();
 				skier.getGoal();
+				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getGoal())));
+//				Collections.reverse(contestants);
+//				goalCompetitorOrder.put(stringToInt(skier.getGoal()), startNumber);
+//				toUpdateOrder();
 				counter2--;
 				}
 			}
@@ -92,14 +111,48 @@ public class SkiTimerLogic extends Contestant{
 			System.out.println("Competition over");
 		}
 		
+		
 		System.out.println(contestants);
 	}
-	
-//	call on a method that organises the competitors in descending order based on index for . decendedOrderList
-	public void decendedOrderList(){
+//	
+//	private void toUpdateOrder(TreeMap<Integer, String> mapList) {
+//		
+//		for(Map.Entry<Integer, String> orderContestant : mapList.entrySet()) {
+//			
+//			for(Contestant skier : contestants) {
+//				if(orderContestant.getValue().equals(skier.getStartNumber())) {
+//					
+//				}
+//			}
+//		}
+//		
+//	}
+
+
+
+//	private void toUpdateOrder() 
+//		
+//	}
+	  
+	public int stringToInt(String time) {
+		
+		 if (time == null) {
+		        
+		        return 0; 
+		}
+		String[] timeToSplit = time.split(":");
+
+			int takeHours = (Integer.parseInt(timeToSplit[0]) * 3600);
+			int takeMinutes = (Integer.parseInt(timeToSplit[1]) * 60);
+			int takeSeconds = Integer.parseInt(timeToSplit[2]);
+		
+		return takeHours + takeMinutes + takeSeconds;
 		
 	}
 	
+//	call on a method that organises the competitors in descending order 
+//	using stringToInt and compare the times for each contestant.
+
 	public void quitApp(String message) {
 		System.out.println(message);
 		System.exit(0);
