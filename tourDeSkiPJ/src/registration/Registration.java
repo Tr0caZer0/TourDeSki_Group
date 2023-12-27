@@ -24,19 +24,20 @@ public class Registration {
 			System.out.println("0: Exit");
 
 			Scanner scanner = new Scanner(System.in);
+			Scanner scanner2 = new Scanner(System.in);
 			int choice = scanner.nextInt();
 
 			switch (choice) {
 			case 0:
 				continueLoop=false;
 				System.out.println("Registration cancelled");
+//				Lade till system.exit så att programmet avslutas efter att lista skapats. 
 				System.exit(0);
 				break;
-
+//			Uppdaterade StartNummer till String.
 			case 1:
-				Scanner scanner2 = new Scanner(System.in);
 				System.out.println("Enter startnumber:");
-				int startNumber = scanner.nextInt();
+				String startNumber = scanner2.nextLine();
 				System.out.println("Enter name:");
 				String name = scanner2.nextLine();
 				Contestant contestant = new Contestant();
@@ -59,9 +60,12 @@ public class Registration {
 					System.out.println("No contestants have been added to the list");	
 				}
 				else {
-				System.out.println("Enter race id number:");
-				int idNumber = scanner.nextInt();
-				String raceId = "Race"+idNumber+".txt";
+//				Lade till tävlings-typ samt ändrade filnamn. Så att vi kan välja korrekt tävlingstyp i Main-klassen. 
+				System.out.println("Enter group id number:");
+				String groupId = scanner2.nextLine();
+				System.out.println("Enter competition type:");
+				String competitionType = scanner2.nextLine();
+				String raceId = "CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt";
 				try {
 					FileWriter fw = new FileWriter(raceId);
 					PrintWriter pw = new PrintWriter(fw);

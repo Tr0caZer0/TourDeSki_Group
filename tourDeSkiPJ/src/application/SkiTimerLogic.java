@@ -1,5 +1,7 @@
 package application;
 
+import registration.Registration;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -19,20 +21,22 @@ public class SkiTimerLogic extends Contestant{
 	public int counter1;
 	public int counter2;
 	
+	private String savedGroupId;
+	private String savedCompetitionType;
+	
 	public SkiTimerLogic() {
 		counter1 = contestants.size();
 		counter1 = contestants.size();
+		
 	}
 	
 	private String startNumber;
-	private String groupId;
 	
-	public void skierList() {
-		
+	public void skierList(String groupId, String competitionType) {
+
 		//Changed to choice based
-		groupId="Race1.txt";
 		//Läser in textfil och skapar listan contestants av våra Contestant objekt
-		try(FileReader fr = new FileReader(new File(groupId))) {	
+		try(FileReader fr = new FileReader(new File("CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt"))) {	
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			setStartTime();
@@ -48,11 +52,16 @@ public class SkiTimerLogic extends Contestant{
 			}
 			counter1 = contestants.size();
 			counter2 = contestants.size();
+			
+//			För att spara till korrekt fil med korrekt namn. 
+			savedGroupId= groupId;
+			savedCompetitionType = competitionType;
+			
 			br.close();
 
 		}
 		catch (IOException e) {
-			System.out.println("Error - Cannot read from file " +groupId);
+			System.out.println("Error - Cannot read from file " + e);
 
 		}
 	}// End SkierList() method
@@ -63,7 +72,7 @@ public class SkiTimerLogic extends Contestant{
 		System.out.println(counter1);
 		System.out.println(counter2);
 		
-//		For the moment giving start time to keep track. To be removed later on. 
+//		Mass-start
 		if(option.equals("Start")) {
 			setStartTime();
 			for(Contestant skier : contestants) {
@@ -71,6 +80,13 @@ public class SkiTimerLogic extends Contestant{
 				skier.getTimes();
 			}
 		}
+		
+//		Interval-start 1
+
+//		Interval-start 2
+		
+//		hunt-start 3 
+		
 //		Takes intervall.
 		if(option.equals("Lap")) {
 			for(Contestant skier : contestants) {
@@ -104,15 +120,17 @@ public class SkiTimerLogic extends Contestant{
 		System.out.println(contestants);
 	}
 
-	  
+//	Måste även spara för jakt-start och följa rätt syntax:
+//	"CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt"
+//	Se efter hur man kan göra det utan att skapa en till metod. 
 	public void saveCompetitionScore() {
 //		Should correlate to the competitionId that the race is based on. 
-		String competitionId = "savedCompetition1.txt";
+		String competitionId = "saved_" + savedCompetitionType + "_Competition"+ savedGroupId +".txt";
 		try(BufferedWriter toSaveData = new BufferedWriter(new FileWriter(competitionId))){
 			
 			for(Contestant skier : contestants) {
-				toSaveData.newLine();
 				toSaveData.append(skier.toString());
+				toSaveData.newLine();
 			}
 			
 			toSaveData.close();
