@@ -39,7 +39,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button start1;
 	Button start2;
 	Button start3;
-	Button clear;
+	Button clear2;
 	Button nr0;
 	Button nr1;
 	Button nr2;
@@ -60,7 +60,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button finish;
 	Button stop;
 	Button saveFile;
-	Button clear2;
+	Button clear;
 	Button nr00;
 	Button nr11;
 	Button nr22;
@@ -107,7 +107,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 		
 			start2 = new Button();		
 			start2.setText("Interval");
-			start2.setOnAction(e -> primaryStage.setScene(scene2) );// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
+			start2.setOnAction(e -> {primaryStage.setScene(scene2); 
+									String groupNumber = search2.getText();
+									logic.skierList(groupNumber, "Interval15");
+							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
 			start2.setMinSize(100, 54);
 			start2.setMaxSize(100, 54);
 			start2.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
@@ -132,6 +135,19 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
+			
+			clear2 = new Button();
+			clear2.setText("CL");
+			clear2.setOnAction(e-> clearSearch2());
+			clear2.setMinSize(60, 40);
+			clear2.setMaxSize(60, 40);
+			clear2.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+			clear2.setStyle("-fx-background-color: #fffcf2; "
+			 		+ "-fx-border-color: #6F7178;"
+			 		+ "-fx-text-fill:#6F7178;"
+			 		+ "-fx-border-width: 1px;"
+			 		+ "-fx-background-radius: 3px; "
+			 		+ "-fx-border-radius: 3px;");
 			
 			//Siffer-knappar
 			nr0= new Button();
@@ -259,19 +275,6 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			nr9.setMaxSize(60, 40);
 			nr9.setFont(Font.font("Arial", FontWeight.BOLD,14 ));
 			nr9.setStyle("-fx-background-color: #fffcf2; "
-			 		+ "-fx-border-color: #6F7178;"
-			 		+ "-fx-text-fill:#6F7178;"
-			 		+ "-fx-border-width: 1px;"
-			 		+ "-fx-background-radius: 3px; "
-			 		+ "-fx-border-radius: 3px;");
-			
-			clear2 = new Button();
-			clear2.setText("CL");
-			clear2.setOnAction(e-> clearSearch2());
-			clear2.setMinSize(60, 40);
-			clear2.setMaxSize(60, 40);
-			clear2.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-			clear2.setStyle("-fx-background-color: #fffcf2; "
 			 		+ "-fx-border-color: #6F7178;"
 			 		+ "-fx-text-fill:#6F7178;"
 			 		+ "-fx-border-width: 1px;"

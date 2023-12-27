@@ -39,7 +39,7 @@ public class SkiTimerLogic extends Contestant{
 		try(FileReader fr = new FileReader(new File("CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt"))) {	
 			BufferedReader br = new BufferedReader(fr);
 			String line;
-			setStartTime();
+
 			while ((line=br.readLine()) != null) {
 				String[] part = line.split(",");
 				startNumber = part[0];
@@ -73,8 +73,9 @@ public class SkiTimerLogic extends Contestant{
 		System.out.println(counter2);
 		
 //		Mass-start
+//		En till spalt som gäller för starttiden 
 		if(option.equals("Start")) {
-			setStartTime();
+			setStartTime(false, "");
 			for(Contestant skier : contestants) {
 				skier.lapTime1();
 				skier.getTimes();
@@ -82,9 +83,17 @@ public class SkiTimerLogic extends Contestant{
 		}
 		
 //		Interval-start 1 intervall på 15 sec
+//		I uppgiften ger han exempel där loppet start 10:00:00 för åkare 1 och 10:00:15 för åkare två
+//		Se på hur vi kan välja klockslag för start istället för now.
 		
 		if(option.equals("interval1")) {
-			
+			if(option.equals("Start")) {
+				setStartTime(true, "");
+				for(Contestant skier : contestants) {
+					skier.lapTime1();
+					skier.getTimes();
+				}
+			}
 		}
 //		Måste skapa en till knapp i javaFX för intervall på 30 sec
 //		Interval-start 2

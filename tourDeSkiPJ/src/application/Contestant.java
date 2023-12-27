@@ -48,6 +48,11 @@ public class Contestant extends Timer {
 	        super.lapTime(); // Call the parent class method to calculate intervalTime
 	        times = getStartTimer();
 	    }
+	 
+	 public void lapTime0() {
+	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	        times = getStartTimer();
+	    }
 	 public void lapTime2() {
 	        super.lapTime(); // Call the parent class method to calculate intervalTime
 	        interval = getCurrentTime();
@@ -63,6 +68,7 @@ public class Contestant extends Timer {
 		
 	}
 
+//	return startNumber + "," + name + "," + "times + "," interval + "," + goal;
 	@Override
 	public String toString() {
 		return startNumber + "," + name + "," + interval + "," + goal;

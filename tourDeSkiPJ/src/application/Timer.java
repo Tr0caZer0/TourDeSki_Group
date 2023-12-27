@@ -2,7 +2,10 @@ package application;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +22,20 @@ public class Timer {
         lapTimes = new ArrayList<>();
         isRunning = false;
 
-    	this.setStartTime();
+    	this.setStartTime(isRunning, "");
     }
 
-    public void setStartTime() {
+    public void setStartTime(boolean pursuit, String addSeconds) {
         if (!isRunning) {
-            startTime = Instant.now();
-            isRunning = true;
-            lapTimes.clear(); 
+        	if(pursuit ==  false) {
+        		startTime = Instant.now();
+                isRunning = true;
+                lapTimes.clear();
+        	}else {
+        		startTime = LocalTime.parse("10:00:"+addSeconds).atDate(LocalDate.now()).atOffset(ZoneOffset.UTC).toInstant();
+
+        	}
+             
         }
     }
     
