@@ -560,7 +560,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			TableColumn <Contestant, String> timeColumn1 = new TableColumn <> ("SPLIT"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
 			timeColumn1.setMinWidth(60);
 			timeColumn1.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
-			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("intervall"));
+			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("interval"));
 			
 			TableColumn <Contestant, String> timeColumn2 = new TableColumn <>("GOAL"); // Kopplat till samma som timeColumn1 för nu.
 			timeColumn2.setMinWidth(60);

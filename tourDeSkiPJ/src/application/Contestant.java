@@ -5,7 +5,7 @@ public class Contestant extends Timer {
 	private String startNumber;
 	private String name;
 	private String times;
-	private String intervall;
+	private String interval;
 	private String goal;
 	
 	public Contestant() {	
@@ -50,7 +50,7 @@ public class Contestant extends Timer {
 	    }
 	 public void lapTime2() {
 	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        intervall = getCurrentTime();
+	        interval = getCurrentTime();
 	    }
 	 
 	 public void lapTime3() {
@@ -65,15 +65,15 @@ public class Contestant extends Timer {
 
 	@Override
 	public String toString() {
-		return startNumber + "," + name + "," + intervall + "," + goal;
+		return startNumber + "," + name + "," + interval + "," + goal;
 	}
 
-	public String getIntervall() {
-		return intervall;
+	public String getInterval() {
+		return interval;
 	}
 
-	public void setIntervall(String intervall) {
-		this.intervall = intervall;
+	public void setInterval(String interval) {
+		this.interval = interval;
 	}
 
 	public String getGoal() {

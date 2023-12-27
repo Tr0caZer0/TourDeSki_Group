@@ -81,19 +81,30 @@ public class SkiTimerLogic extends Contestant{
 			}
 		}
 		
-//		Interval-start 1
-
+//		Interval-start 1 intervall på 15 sec
+		
+		if(option.equals("interval1")) {
+			
+		}
+//		Måste skapa en till knapp i javaFX för intervall på 30 sec
 //		Interval-start 2
+		if(option.equals("interval2")) {
+			
+		}
 		
-//		hunt-start 3 
+//		pusuit-start 3 
+//		Ska starta med den tidsskillnad som de hade vid slutet på starterna ovan. 
+		if(option.equals("pursuit")) {
+			
+		}
 		
-//		Takes intervall.
+//		Takes interval.
 		if(option.equals("Lap")) {
 			for(Contestant skier : contestants) {
 				if(skier.getStartNumber().equals(startNumber) && (counter1 >0)) {
 				skier.lapTime2();
-				skier.getIntervall();
-				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getIntervall())));
+				skier.getInterval();
+				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getInterval())));
 				counter1--;
 				}
 			}
@@ -142,7 +153,7 @@ public class SkiTimerLogic extends Contestant{
 	}
 
 
-
+//	Omvanldar tidsvärdet i string till int i sekunder för att sedan avgöra vem som leder i loppet. 
 	public int stringToInt(String time) {
 		
 		 if (time == null) {
@@ -160,9 +171,6 @@ public class SkiTimerLogic extends Contestant{
 	}
 	public void quitApp(String message) {
 		System.out.println(message);
-//		Need to add further FX code if we want this option. New window should open. 
-		System.out.print("Do you want to save the compitition data? \n Enter 1 for Yes or 0 for No: ");
-		
 		System.exit(0);
 	}
 }// End Logic class
