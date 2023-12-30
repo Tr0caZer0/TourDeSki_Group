@@ -2,10 +2,7 @@ package application;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,22 +18,50 @@ public class Timer {
     public Timer() {
         lapTimes = new ArrayList<>();
         isRunning = false;
-
-    	this.setStartTime(isRunning, "");
     }
 
-    public void setStartTime(boolean pursuit, String addSeconds) {
+    public void setStartTime() {
         if (!isRunning) {
-        	if(pursuit ==  false) {
         		startTime = Instant.now();
                 isRunning = true;
                 lapTimes.clear();
-        	}else {
-        		startTime = LocalTime.parse("10:00:"+addSeconds).atDate(LocalDate.now()).atOffset(ZoneOffset.UTC).toInstant();
-
-        	}
-             
         }
+    }
+    
+//    public void setStartTimeInterval(Instant startTime) {
+//        if(this.startTime == null) {
+//     	   this.startTime = startTime;
+//        }
+//     }
+//    
+    public void setStartTimeInterval(Instant test) {
+        
+        	if(startTime == null) {
+        		startTime = test;
+        	}else{
+        		startTime = test;
+        	}
+        		
+             isRunning = true;
+        
+    }
+    
+    public String getStartTimeInterval() {
+    	if(startTime != null) {
+    		return formatInstant(startTime);
+    	}else {
+    		return "Null";
+    	}
+    	
+    }
+    
+    public Instant getInstantStartTimeInterval() {
+    	if(startTime != null) {
+    		return startTime;
+    	}else {
+    		return null;
+    	}
+    	
     }
     
     public String getStartTimer() {
@@ -66,13 +91,21 @@ public class Timer {
         lapTimes.clear();
     }
     
-    public void lapTime() {
-        if (isRunning) {
-            Instant splitTime = Instant.now();
-            Duration duration = Duration.between(startTime, splitTime);
-            intervalTime = formatDuration(duration);
-        }
-    }
+//    public void lapTime0() {
+//        if (isRunning) {
+//            Instant splitTime = Instant.now();
+//            Duration duration = Duration.between(startTime, splitTime);
+//            intervalTime = formatDuration(duration);
+//        }
+//    }
+    
+//    public void lapTime() {
+//        if (isRunning) {
+//            Instant splitTime = Instant.now();
+//            Duration duration = Duration.between(startTime, splitTime);
+//            intervalTime = formatDuration(duration);
+//        }
+//    }
     
 
     public String getCurrentTime() {
@@ -87,13 +120,13 @@ public class Timer {
         }
     }
 
-    public List<String> getLapTime() {
-        List<String> formattedSplits = new ArrayList<>();
-        for (Duration split : lapTimes) {
-            formattedSplits.add(formatDuration(split));
-        }
-        return formattedSplits;
-    }
+//    public List<String> getLapTime() {
+//        List<String> formattedSplits = new ArrayList<>();
+//        for (Duration split : lapTimes) {
+//            formattedSplits.add(formatDuration(split));
+//        }
+//        return formattedSplits;
+//    }
 
     private String formatDuration(Duration duration) {
         long hours = duration.toHours();
@@ -101,6 +134,8 @@ public class Timer {
         long seconds = duration.toSecondsPart();
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+    
+    //Konverterar Instant till String
     private String formatInstant(Instant instant) {
     	DateTimeFormatter formatInstantTime = DateTimeFormatter.ofPattern("HH:mm:ss");
     	String formattedTime = formatInstantTime.format(instant.atZone(ZoneId.systemDefault()));

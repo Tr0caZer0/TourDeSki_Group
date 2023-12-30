@@ -31,14 +31,16 @@ import javafx.application.Platform;
 
 public class Main extends Application implements EventHandler<ActionEvent> {
 
-	Timer timer = new Timer();
+//	Timer timer = new Timer();
 	Contestant contestant = new Contestant();
 	SkiTimerLogic logic = new SkiTimerLogic();
+	private String startType;
 	
 	Label welcome;
 	Button start1;
 	Button start2;
 	Button start3;
+	Button start4;
 	Button clear2;
 	Button nr0;
 	Button nr1;
@@ -91,6 +93,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start1.setText("Mass");
 			start1.setOnAction(e -> {primaryStage.setScene(scene2); 
 									String groupNumber = search2.getText();
+									startType = "Mass";
 									logic.skierList(groupNumber, "Mass");
 									}); // Här måste logiken för start-valet in. 
 																	//Så att rätt inställningar körs i nästa fönster
@@ -106,9 +109,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-border-radius: 3px;");
 		
 			start2 = new Button();		
-			start2.setText("Interval");
+			start2.setText("Interval15");
 			start2.setOnAction(e -> {primaryStage.setScene(scene2); 
 									String groupNumber = search2.getText();
+									startType = "Interval15";
 									logic.skierList(groupNumber, "Interval15");
 							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
 			start2.setMinSize(100, 54);
@@ -123,12 +127,30 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-border-radius: 3px;");
 			
 			start3 = new Button();		
-			start3.setText("Pursuit");
-			start3.setOnAction(e -> primaryStage.setScene(scene2));// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
+			start3.setText("Interval30");
+			start3.setOnAction(e -> {primaryStage.setScene(scene2); 
+									String groupNumber = search2.getText();
+									startType = "Interval30";
+									logic.skierList(groupNumber, "Interval30");
+							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
 			start3.setMinSize(100, 54);
 			start3.setMaxSize(100, 54);
 			start3.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
 			start3.setStyle(
+					 "-fx-background-color: #EFE2AF ; "
+					+ "-fx-text-fill: #6F7178; "
+					+ "-fx-border-color: #6F7178; "
+					+ "-fx-border-width: 1px;"
+					+"-fx-background-radius: 3px; "
+					+"-fx-border-radius: 3px;");
+			
+			start4 = new Button();		
+			start4.setText("Pursuit");
+			start4.setOnAction(e -> primaryStage.setScene(scene2));// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
+			start4.setMinSize(100, 54);
+			start4.setMaxSize(100, 54);
+			start4.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
+			start4.setStyle(
 					 "-fx-background-color: #F8AB81 ; "
 					+ "-fx-text-fill: #6F7178; "
 					+ "-fx-border-color: #6F7178; "
@@ -346,7 +368,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			startVbox.setPadding(new Insets(0));
 			startVbox.setSpacing(2);
 			startVbox.alignmentProperty().setValue(Pos.CENTER);
-			startVbox.getChildren().addAll( start1, start2, start3);
+			startVbox.getChildren().addAll( start1, start2, start3, start4);
 			
 			
 			//HBox till bottendelen av BorderPane
@@ -410,7 +432,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start.setMinSize(100, 40);
 			start.setMaxSize(100, 40);
 			start.setOnAction(e -> {System.out.println("Klockan startas"); 
-										logic.addTimeToContestant("Start", null);
+										System.out.println(startType);
+										logic.addTimeToContestant(startType, null);
 										Platform.runLater(() -> {
 										    resultList.setAll(logic.contestants);
 										});
@@ -559,6 +582,10 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			nameColumn.setCellValueFactory(new PropertyValueFactory<>( "name"));
 			
 //			Add startTime
+			TableColumn <Contestant, String> timeColumn0 = new TableColumn <> ("START"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
+			timeColumn0.setMinWidth(60);
+			timeColumn0.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
+			timeColumn0.setCellValueFactory(new PropertyValueFactory <> ("times"));
 					
 			TableColumn <Contestant, String> timeColumn1 = new TableColumn <> ("SPLIT"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
 			timeColumn1.setMinWidth(60);
@@ -573,7 +600,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			resultTable = new TableView<>();
 			resultTable.setItems(resultList);
-			resultTable.getColumns().addAll(nrColumn, nameColumn, timeColumn1, timeColumn2);
+			resultTable.getColumns().addAll(nrColumn, nameColumn, timeColumn0, timeColumn1, timeColumn2);
 			resultTable.setMinSize(292, 250);
 			resultTable.setMaxSize(292, 250);
 			resultTable.setStyle("-fx-border-color: #6F7178;"

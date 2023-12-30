@@ -44,22 +44,26 @@ public class Contestant extends Timer {
 		this.times = times;
 	}
 	
+//	 public void lapTime0() {
+//	       	super.lapTime(); // Call the parent class method to calculate intervalTime
+//	       
+//	        
+//	    }
+	 
 	 public void lapTime1() {
-	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        times = getStartTimer();
+//	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	        
+	        	setStartTime();
+	        
 	    }
 	 
-	 public void lapTime0() {
-	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        times = getStartTimer();
-	    }
 	 public void lapTime2() {
-	        super.lapTime(); // Call the parent class method to calculate intervalTime
+//	        super.lapTime(); // Call the parent class method to calculate intervalTime
 	        interval = getCurrentTime();
 	    }
 	 
 	 public void lapTime3() {
-	        super.lapTime(); // Call the parent class method to calculate intervalTime
+//	        super.lapTime(); // Call the parent class method to calculate intervalTime
 	        goal = getCurrentTime();
 	    }
 	// Metod för att lägga till tid till List<LocalTime> times
@@ -71,7 +75,7 @@ public class Contestant extends Timer {
 //	return startNumber + "," + name + "," + "times + "," interval + "," + goal;
 	@Override
 	public String toString() {
-		return startNumber + "," + name + "," + interval + "," + goal;
+		return startNumber + "," + name + ","+ times + "," + interval + "," + goal;
 	}
 
 	public String getInterval() {

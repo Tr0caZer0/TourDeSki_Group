@@ -45,7 +45,6 @@ public class Registration {
 				contestant.setName(name);
 				contestants.add(contestant);
 				break;
-				
 			case 2:
 				if(contestants.isEmpty()) {
 					System.out.println("No contestants have been added to the list");
@@ -54,7 +53,7 @@ public class Registration {
 					System.out.println(contestants);
 				}
 				break;
-
+				
 			case 3:
 				if(contestants.isEmpty()) {
 					System.out.println("No contestants have been added to the list");	
@@ -63,7 +62,7 @@ public class Registration {
 //				Lade till tävlings-typ samt ändrade filnamn. Så att vi kan välja korrekt tävlingstyp i Main-klassen. 
 				System.out.println("Enter group id number:");
 				String groupId = scanner2.nextLine();
-				System.out.println("Enter competition type:");
+				System.out.println("Enter competition type (Mass, Interval15, Interval30, pursuit):");
 				String competitionType = scanner2.nextLine();
 				String raceId = "CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt";
 				try {
@@ -82,7 +81,6 @@ public class Registration {
 				System.out.println("The list was saved as "+raceId);
 				}
 				break;
-				
 			default:
 				System.out.println("Invalid choice, try again!");
 				continue;
