@@ -435,7 +435,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start.setMaxSize(100, 40);
 			start.setOnAction(e -> {System.out.println("Klockan startas"); 
 										System.out.println(startType);
-										logic.addTimeToContestant(startType, null);
+										logic.addTimeToContestant(startType);
 										Platform.runLater(() -> {
 										    resultList.setAll(logic.contestants);
 										});

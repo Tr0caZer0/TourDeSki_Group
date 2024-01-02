@@ -18,11 +18,14 @@ public class SkiTimerLogic extends Contestant{
 	Timer time = new Timer();
 	Contestant contestant = new Contestant();
 	
+	// Fungerar som ID för sprarande av fil för jaktstart.
 	String forPursuit = null;
 	
+	// Storleken på dokumentet omvandlat till List och sen size. 
 	public int counter1;
 	public int counter2;
 	
+	// För att kunna formatera korrekt syntax vid sparande av lopp
 	private String savedGroupId;
 	private String savedCompetitionType;
 	
@@ -32,7 +35,7 @@ public class SkiTimerLogic extends Contestant{
 		
 	}
 	
-	
+//	Metoden skierList läser in utvalt dokument som baseras på ID-nummer samt tävlingstyp. 
 	public void skierList(String groupId, String competitionType) {
 
 		try(FileReader fr = new FileReader(new File("CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt"))) {	
@@ -72,96 +75,66 @@ public class SkiTimerLogic extends Contestant{
 	}// End SkierList() method
 
 
-	
-	public void addTimeToContestant(String option, String startNumber) {
-		System.out.println(counter1);
-		System.out.println(counter2);
+//	Metoden kan välja mellan fyra olika startmoment. Vilket moment som körs avgörs i Main. 
+	public void addTimeToContestant(String option) {
 		
 //		Mass-start
-//		En till spalt som gäller för starttiden 
 		if(option.equals("Mass")) {
 			forPursuit = "1";
 			for(Contestant skier : contestants) {
-				skier.setStartTime();
-				skier.setTimes(skier.getStartTimer());
+				skier.setStartTime(); // startar tiden
+				skier.setTimes(skier.getStartTimer()); //Hämtar startiden
 			}
-		}
+		}// End if-statement Mass
 		
+//		Intervall-start 15 sec
 		if(option.equals("Interval15")) {
 			forPursuit = "2";
-			setStartTime();
-			Instant test = Instant.now();
+			Instant test = Instant.now();// Första deltagaren vid given tid
 			for(Contestant skier : contestants) {
-				skier.setStartTimeInterval(test);
-				//skier.lapTime0();
-				skier.setTimes(skier.getStartTimeInterval());
-				System.out.println(skier.getStartTimeInterval());
-				test = test.plusSeconds(15);
+				skier.setStartTimeInterval(test); // Anger startTid för åkare
+				skier.setTimes(skier.getStartTimeInterval()); // Sätter starttid för åkare
+				test = test.plusSeconds(15); // skapar ett intervall på 15 sec. 
 			}
-		}
-//		Måste skapa en till knapp i javaFX för intervall på 30 sec
-//		Interval-start 2
+		}// End if-statement Interval15
+
+//		Intervall-start 30 sec
+//		Same same different name. 
 		if(option.equals("Interval30")) {
 			forPursuit = "3";
-			setStartTime();
 			Instant test = Instant.now();
 			for(Contestant skier : contestants) {
 				skier.setStartTimeInterval(test);
 				skier.setTimes(skier.getStartTimeInterval());
 				test = test.plusSeconds(30);
 			}
-		}
+		}// End if-statement Interval30
 		
 //		pusuit-start 3 
-//		Ska starta med den tidsskillnad som de hade vid slutet på starterna ovan. 
 		if(option.equals("Pursuit")) {
-			//setStartTime();
+			
 			Instant timeComp = Instant.now();
 			List<Integer> interval = getDifference();
-			int i = 1;
+			int i = 1; // avgör vilken indexposition som blir det kommande intervallet.
 			for(Contestant skier : contestants) {
 				skier.setStartTimeInterval(timeComp);
 				skier.setTimes(skier.getStartTimeInterval());
 				
 				skier.setGoal("00:00:00"); // för att undvika sluttiderna från föregående lopp.
+				// 5 deltagare 4 index
 				if(i < counter1) {
 					timeComp = timeComp.plusSeconds(interval.get(i));
 
 					System.out.println(i);
 				}
 				i += 1;
-				
 			}
-			
-		}
+		}// End if-statement Pursuit
 		
-		System.out.println(contestants);
-	}
-	
-	// För att hämta intervallVärdet
-	private List<Integer> getDifference() {
-		List<Integer> listEndTime = new ArrayList<>();
-		for(Contestant skier : contestants) {
-			String [] toSplitTime = skier.getGoal().split(":");
-			listEndTime.add(Integer.parseInt(toSplitTime[2]));
-		}
-		
-		List<Integer> difference = new ArrayList<>();
-		
-		for(int i = 0; i < listEndTime.size(); i++) {
-			if(i == 0) {
-				difference.add(0);
-			}else {
-				int findDifference = listEndTime.get(i) - listEndTime.get(i - 1);
-				difference.add(findDifference);
-			}
-		}
-		
-		System.out.println(difference);
-		return difference;
-	}
+	}// End addTimeToContestant method
 
-
+//  Metoden hämtar intervalltid samt sluttid för alla typer av lopp. 
+//	Vilket lopp, deltagare och tid som ska hämtas avgörs i Main. 
 	public void getTimeForContestant(String option, String startNumber, String competitionType) {
 		if(option.equals("Lap")) {
 		
@@ -169,6 +142,7 @@ public class SkiTimerLogic extends Contestant{
 				if(skier.getStartNumber().equals(startNumber)) {
 					if(competitionType.equals("Interval15") || competitionType.equals("Interval30") || competitionType.equals("Pursuit")) {
 						
+						// Intervaltiden kan sättas först när åkarens starttid har börjat, annars blir det minus. 
 						if(stringToInt(skier.getCurrentTime()) > 0) {
 							skier.setInterval(skier.getCurrentTime());
 						}else {
@@ -179,15 +153,17 @@ public class SkiTimerLogic extends Contestant{
 					}else {
 						skier.setInterval(skier.getCurrentTime());
 					}
+//				Sorterar listan av deltagare i realtid för att få fram vem som leder.
+//				Avgörs genom att jämföra tiden mellan deltagare och tiden omvandlad till sekunder. 
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getInterval())));
 				counter1--;
-				//skier.resetTimer();
 				break;
 				}
 			}
 			
-		}
+		}// End if-statement Lap
 		
+		//Same same different name
 		if(option.equals("Goal")) {
 			for(Contestant skier : contestants) {
 				if(skier.getStartNumber().equals(startNumber) && (counter2 >0)) {
@@ -204,15 +180,17 @@ public class SkiTimerLogic extends Contestant{
 
 						skier.setGoal(skier.getCurrentTime());
 					}
-//				skier.getGoal();
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getGoal())));
 				counter2--;
 				}
 			}
-		}
+		}// End if-statement Goal
+		
 //		Måste korrigeras. 
+//		Tänkt att fungera som en begränsing. 
 		if(counter1 <= 0 && counter2 <= 0) {
 			saveCompetitionScore();
+			//Behövs om det inte ska bli error, eftersom jaktstart inte spraras för ett senare jaktstart tillfälle. 
 			if(!competitionType.equals("Pursuit")) {
 				savedForPursuit();
 			}
@@ -220,11 +198,10 @@ public class SkiTimerLogic extends Contestant{
 			System.out.println("Competition over");
 		}
 		
-	}
+	}// End getTimeForContestant() method
 
-	
+//	Metoden sparar ett lopp för Jaktstart
 	public void savedForPursuit() {
-//		Should correlate to the competitionId that the race is based on. 
 		String competitionId = "CompetitionId" + savedGroupId.concat(forPursuit) + "_CompetitionType"+ "Pursuit" +".txt";
 		try(BufferedWriter toSaveData = new BufferedWriter(new FileWriter(competitionId))){
 			
@@ -239,11 +216,10 @@ public class SkiTimerLogic extends Contestant{
 			System.out.println("Error - Cannot create file" + e);
 		}
 		
-	}
+	}//End savedForPursuit() method
 	
-	
-	public void saveCompetitionScore() {
-//		Should correlate to the competitionId that the race is based on. 
+//	Metoden sparar föregående race. Kan inte användas för jaktstart, inkorrekt syntax. 
+	public void saveCompetitionScore() { 
 		String competitionId = "saved_" + savedCompetitionType + "_Competition"+ savedGroupId +".txt";
 		try(BufferedWriter toSaveData = new BufferedWriter(new FileWriter(competitionId))){
 			
@@ -259,7 +235,31 @@ public class SkiTimerLogic extends Contestant{
 		}
 		
 	}
-
+	
+//	Metoden tar den avgörande sluttiden från ett föregående lopp för alla deltagare och sedan differansen 
+//	mellan index från vänster till höger för att får ett korrekt startintervall
+	private List<Integer> getDifference() {
+		List<Integer> listEndTime = new ArrayList<>();
+		//Omvandlar sluttid till till int
+		for(Contestant skier : contestants) {
+			String [] toSplitTime = skier.getGoal().split(":");
+			listEndTime.add(Integer.parseInt(toSplitTime[2]));
+		}
+		
+		List<Integer> difference = new ArrayList<>();
+		//Hämtar differansen mellan vänstar och höger deltagare i växande ordning. 
+		for(int i = 0; i < listEndTime.size(); i++) {
+			if(i == 0) {
+				difference.add(0);
+			}else {
+				int findDifference = listEndTime.get(i) - listEndTime.get(i - 1);
+				difference.add(findDifference);
+			}
+		}
+		
+		System.out.println(difference);
+		return difference;
+	}// End getDifference() method
 
 //	Omvanldar tidsvärdet i string till int i sekunder för att sedan avgöra vem som leder i loppet. 
 	public int stringToInt(String time) {
@@ -276,9 +276,11 @@ public class SkiTimerLogic extends Contestant{
 		
 		return takeHours + takeMinutes + takeSeconds;
 		
-	}
+	}// End stringToInt() method 
+	
+	//Metoden avslutar programmet. 
 	public void quitApp(String message) {
 		System.out.println(message);
 		System.exit(0);
-	}
+	}// End quitApp() method
 }// End Logic class

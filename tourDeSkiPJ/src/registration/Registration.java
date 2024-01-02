@@ -91,16 +91,3 @@ public class Registration {
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
