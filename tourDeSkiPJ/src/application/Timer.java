@@ -4,8 +4,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Timer {
 
@@ -50,7 +48,6 @@ public class Timer {
     	
     }
     
- 
     
     public void setStopTime() {
         if (isRunning) {

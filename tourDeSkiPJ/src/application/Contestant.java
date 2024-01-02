@@ -65,12 +65,6 @@ public class Contestant extends Timer {
 		this.goal = goal;
 	}
 	
-	
-	 
-//	 public void lapTime1() {
-//	    setStartTime();
-//	        
-//	 }
 	 
 	@Override
 	public String toString() {
