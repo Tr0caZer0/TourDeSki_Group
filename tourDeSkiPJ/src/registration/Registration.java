@@ -10,6 +10,7 @@ import java.util.Scanner;
 import application.Contestant;
 
 public class Registration {
+	public static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args){
 		
@@ -23,8 +24,6 @@ public class Registration {
 			System.out.println("3: Save list");
 			System.out.println("0: Exit");
 
-			Scanner scanner = new Scanner(System.in);
-			Scanner scanner2 = new Scanner(System.in);
 			int choice = scanner.nextInt();
 
 			switch (choice) {
@@ -37,9 +36,9 @@ public class Registration {
 //			Uppdaterade StartNummer till String.
 			case 1:
 				System.out.println("Enter startnumber:");
-				String startNumber = scanner2.nextLine();
+				String startNumber = scanner.nextLine();
 				System.out.println("Enter name:");
-				String name = scanner2.nextLine();
+				String name = scanner.nextLine();
 				Contestant contestant = new Contestant();
 				contestant.setStartNumber(String.valueOf(startNumber));
 				contestant.setName(name);
@@ -61,9 +60,9 @@ public class Registration {
 				else {
 //				Lade till tävlings-typ samt ändrade filnamn. Så att vi kan välja korrekt tävlingstyp i Main-klassen. 
 				System.out.println("Enter group id number:");
-				String groupId = scanner2.nextLine();
+				String groupId = scanner.nextLine();
 				System.out.println("Enter competition type (Mass, Interval15, Interval30, pursuit):");
-				String competitionType = scanner2.nextLine();
+				String competitionType = scanner.nextLine();
 				String raceId = "CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt";
 				try {
 					FileWriter fw = new FileWriter(raceId);

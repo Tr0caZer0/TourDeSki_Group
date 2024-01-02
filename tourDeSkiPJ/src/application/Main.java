@@ -1,9 +1,5 @@
 package application;
 
-
-
-import java.sql.Time;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
@@ -149,7 +144,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			start4 = new Button();		
 			start4.setText("Pursuit");
-			start4.setOnAction(e -> primaryStage.setScene(scene2));// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
+			start4.setOnAction(e -> {primaryStage.setScene(scene2);
+									String groupNumber = search2.getText();
+									startType = "Pursuit";
+									logic.skierList(groupNumber, "Pursuit");
+			});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
 			start4.setMinSize(100, 54);
 			start4.setMaxSize(100, 54);
 			start4.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
@@ -464,25 +463,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-			//Calls to stop the application
-			
-//			takeTime.setOnAction(e ->{
-//				System.out.println("Test if");
-//				if(startType.equals("Interval15") || startType.equals("Interval30")) {
-//					System.out.println("Test if through");
-//					startNumber = search.getText();
-//					takeTime.setText("Get Lap");
-//				}
-//			});
-//			
-//			takeTime.setOnAction(e ->{ System.out.println("Taking Intreval time");
-//				
-//				logic.getTimeForContestant("Lap", startNumber, startType);	
-//				search.setText("");
-//				Platform.runLater(() -> {
-//				    resultList.setAll(logic.contestants);
-//				});
-//			});		
+			//Calls to stop the application	
 			
 			
 			//Mellantidsknapp
@@ -539,7 +520,11 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			saveFile = new Button();		
 			saveFile.setText("Save file");
 			saveFile.setOnAction(e-> {System.out.println("Saving to file"); 
-			logic.saveCompetitionScore();});
+										logic.saveCompetitionScore();
+										if(!startType.equals("Pursuit")) {
+											logic.savedForPursuit();}
+										}
+									);
 			saveFile.setMinSize(60, 40);
 			saveFile.setMaxSize(60, 40);
 			saveFile.setFont(Font.font("Arial", FontWeight.BOLD, 9));

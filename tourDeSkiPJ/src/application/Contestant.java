@@ -1,7 +1,5 @@
 package application;
 
-import java.time.Instant;
-
 public class Contestant extends Timer {
 	
 	private String startNumber;
@@ -20,6 +18,11 @@ public class Contestant extends Timer {
 	public Contestant(String startNumber, String name) {	
 		this.startNumber = startNumber;
 		this.name = name;
+	}
+	public Contestant(String startNumber, String name, String goal) {	
+		this.startNumber = startNumber;
+		this.name = name;
+		this.goal = goal;
 	}
 
 	public String getStartNumber() {
@@ -46,40 +49,6 @@ public class Contestant extends Timer {
 		this.times = times;
 	}
 	
-//	 public void lapTime0() {
-//		 interval = getCurrentIntervalTime(); 
-//	  }
-	 
-	 public void lapTime1() {
-	    setStartTime();
-	        
-	 }
-	 
-//	 public void lapTime0() {
-//		 interval = getCurrentIntervalTime();
-//	 }
-	 
-	 public void lapTime2() {
-//	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        interval = getCurrentTime();
-	    }
-	 
-	 public void lapTime3() {
-//	        super.lapTime(); // Call the parent class method to calculate intervalTime
-	        goal = getCurrentTime();
-	    }
-	// Metod för att lägga till tid till List<LocalTime> times
-	public String addTime() {
-		return times;
-		
-	}
-
-//	return startNumber + "," + name + "," + "times + "," interval + "," + goal;
-	@Override
-	public String toString() {
-		return startNumber + "," + name + ","+ times + "," + interval + "," + goal;
-	}
-
 	public String getInterval() {
 		return interval;
 	}
@@ -97,8 +66,15 @@ public class Contestant extends Timer {
 	}
 	
 	
+	 
+//	 public void lapTime1() {
+//	    setStartTime();
+//	        
+//	 }
+	 
+	@Override
+	public String toString() {
+		return startNumber + "," + name + ","+ times + "," + interval + "," + goal;
+	}
 
-	
-	
-	
 }
