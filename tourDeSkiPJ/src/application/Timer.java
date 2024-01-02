@@ -11,7 +11,6 @@ public class Timer {
 
     protected Instant startTime;
     protected Instant endTime;
-    protected Instant intervalTime;
     protected boolean isRunning;
     protected List<Duration> lapTimes;
 
@@ -28,21 +27,7 @@ public class Timer {
                 lapTimes.clear();
         }
     }
-    
-    public void setStartTime(Instant newTime) {
-        if (!isRunning) {
-        		startTime = newTime;
-                isRunning = true;
-                lapTimes.clear();
-        }
-    }
-    
-//    public void setStartTimeInterval(Instant startTime) {
-//        if(this.startTime == null) {
-//     	   this.startTime = startTime;
-//        }
-//     }
-//    
+
     public void setStartTimeInterval(Instant test) {
     	 if (startTime == null) {
     	        startTime = test;
@@ -50,25 +35,6 @@ public class Timer {
     	    }
         
     }
-//    public void setIntervalTime() {
-//        intervalTime = Instant.now();
-//        isRunning = true;
-//        
-//    }
-    
-    public void setIntervalTime() {
-		this.intervalTime = Instant.now();
-}
-    //För att anta ett intervallVärde
-    public void setIntervalTime(Instant intervalTime) {
-    		this.intervalTime = intervalTime;
-    }
-    
-    public Instant getIntervalTime() {
-    	return intervalTime;
-    }
-    
-
     
     public String getStartTimeInterval() {
     	if(startTime != null) {
@@ -104,27 +70,16 @@ public class Timer {
     	return formatInstant(endTime);
     }
     
-    public void resetInterval(){
-    	intervalTime = null;
-    }
+ 
     public void resetTimer() {
         isRunning = false;
         startTime = null;
-        intervalTime = null;
         endTime = null;
         lapTimes.clear();
         System.out.println("timer reset");
         System.out.println(startTime);
         System.out.println(isRunning);
     }
-    
-//    public void lapTime0() {
-//        if (isRunning) {
-//            Instant splitTime = Instant.now();
-//            Duration duration = Duration.between(startTime, splitTime);
-//            intervalTime = formatDuration(duration);
-//        }
-//    }
     
 //    public void lapTime() {
 //        if (isRunning) {

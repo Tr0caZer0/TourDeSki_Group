@@ -169,7 +169,7 @@ public class SkiTimerLogic extends Contestant{
 				}
 			}
 		}
-		
+//		Måste korrigeras. 
 		if(counter1 <= 0 && counter2 <= 0) {
 			saveCompetitionScore();
 			time.setStopTime();

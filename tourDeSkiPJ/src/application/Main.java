@@ -538,7 +538,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			saveFile = new Button();		
 			saveFile.setText("Save file");
-			saveFile.setOnAction(e-> {System.out.println("Saving to file"); logic.saveCompetitionScore();});
+			saveFile.setOnAction(e-> {System.out.println("Saving to file"); 
+			logic.saveCompetitionScore();});
 			saveFile.setMinSize(60, 40);
 			saveFile.setMaxSize(60, 40);
 			saveFile.setFont(Font.font("Arial", FontWeight.BOLD, 9));
