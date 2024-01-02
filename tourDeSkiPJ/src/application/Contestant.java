@@ -1,5 +1,7 @@
 package application;
 
+import java.time.Instant;
+
 public class Contestant extends Timer {
 	
 	private String startNumber;
@@ -45,17 +47,17 @@ public class Contestant extends Timer {
 	}
 	
 //	 public void lapTime0() {
-//	       	super.lapTime(); // Call the parent class method to calculate intervalTime
-//	       
-//	        
-//	    }
+//		 interval = getCurrentIntervalTime(); 
+//	  }
 	 
 	 public void lapTime1() {
-//	        super.lapTime(); // Call the parent class method to calculate intervalTime
+	    setStartTime();
 	        
-	        	setStartTime();
-	        
-	    }
+	 }
+	 
+//	 public void lapTime0() {
+//		 interval = getCurrentIntervalTime();
+//	 }
 	 
 	 public void lapTime2() {
 //	        super.lapTime(); // Call the parent class method to calculate intervalTime

@@ -35,6 +35,9 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Contestant contestant = new Contestant();
 	SkiTimerLogic logic = new SkiTimerLogic();
 	private String startType;
+	private String startNumber; 
+	
+
 	
 	Label welcome;
 	Button start1;
@@ -112,7 +115,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start2.setText("Interval15");
 			start2.setOnAction(e -> {primaryStage.setScene(scene2); 
 									String groupNumber = search2.getText();
-									startType = "Interval15";
+									this.startType = "Interval15";
 									logic.skierList(groupNumber, "Interval15");
 							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
 			start2.setMinSize(100, 54);
@@ -463,19 +466,40 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-border-radius: 3px;");
 			//Calls to stop the application
 			
+//			takeTime.setOnAction(e ->{
+//				System.out.println("Test if");
+//				if(startType.equals("Interval15") || startType.equals("Interval30")) {
+//					System.out.println("Test if through");
+//					startNumber = search.getText();
+//					takeTime.setText("Get Lap");
+//				}
+//			});
+//			
+//			takeTime.setOnAction(e ->{ System.out.println("Taking Intreval time");
+//				
+//				logic.getTimeForContestant("Lap", startNumber, startType);	
+//				search.setText("");
+//				Platform.runLater(() -> {
+//				    resultList.setAll(logic.contestants);
+//				});
+//			});		
 			
 			
 			//Mellantidsknapp
 			takeTime = new Button();
 			takeTime.setText("Take time");
-			takeTime.setOnAction(e ->{ System.out.println("Taking Intrevall time");
-				String startNumber = search.getText();
-				logic.addTimeToContestant("Lap", startNumber);
-				search.setText("");
-				Platform.runLater(() -> {
-				    resultList.setAll(logic.contestants);
-				});
-			});		
+			takeTime.setOnAction(e ->{
+						System.out.println("Taking Intreval time");
+					 	String startNumber2 = search.getText();
+					 	System.out.println(startNumber);
+						logic.getTimeForContestant("Lap", startNumber2, startType);	
+						search.setText("");
+						Platform.runLater(() -> {
+						    resultList.setAll(logic.contestants);
+						});
+					});
+			
+			
 			takeTime.setMinSize(100, 40);
 			takeTime.setMaxSize(100, 40);
 			takeTime.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
@@ -495,7 +519,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			finish.setOnAction(e -> {
 			System.out.println("Sluttid");
 			String startNumber = search.getText();
-			logic.addTimeToContestant("Goal", startNumber);	
+			logic.getTimeForContestant("Goal", startNumber, startType);	
 			search.setText("");
 			Platform.runLater(() -> {
 			    resultList.setAll(logic.contestants);

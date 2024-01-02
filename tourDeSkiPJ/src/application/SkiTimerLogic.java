@@ -19,6 +19,9 @@ public class SkiTimerLogic extends Contestant{
 	Timer time = new Timer();
 	Contestant contestant = new Contestant();
 	
+	public Instant instantTime = Instant.now();
+	public int addTime = 0;
+	
 	public int counter1;
 	public int counter2;
 	
@@ -83,35 +86,29 @@ public class SkiTimerLogic extends Contestant{
 			}
 		}
 		
-//		Interval-start 1 intervall på 15 sec
-//		I uppgiften ger han exempel där loppet start 10:00:00 för åkare 1 och 10:00:15 för åkare två
-//		Se på hur vi kan välja klockslag för start istället för now.
-//		if(option.equals("Interval15")) {
-//			LocalTime startTime = LocalTime.parse("10:00:00");
-//			Instant instantStartTime = startTime.atDate(LocalDate.now()).atZone(ZoneId.systemDefault()).toInstant();
-//			for(Contestant skier : contestants) {
-//				skier.setStartTimeInterval(instantStartTime);
-//				skier.lapTime0();
-//				skier.setTimes(skier.getStartTimeInterval());
-//				
-//				instantStartTime = instantStartTime.plusSeconds(15);
-//			}
-//		Måste skapa unik LapTime för intervall
 		if(option.equals("Interval15")) {
 			setStartTime();
-			Instant test = getInstantStartTimeInterval();
+			Instant test = Instant.now();
 			for(Contestant skier : contestants) {
 				skier.setStartTimeInterval(test);
 				//skier.lapTime0();
 				skier.setTimes(skier.getStartTimeInterval());
-				
+				System.out.println(skier.getStartTimeInterval());
 				test = test.plusSeconds(15);
 			}
 		}
 //		Måste skapa en till knapp i javaFX för intervall på 30 sec
 //		Interval-start 2
 		if(option.equals("Interval30")) {
-//			setIntervalTime(30);
+//			setStartTime();
+			Instant test = Instant.now();
+			for(Contestant skier : contestants) {
+				skier.setStartTimeInterval(test);
+				//skier.lapTime0();
+				skier.setTimes(skier.getStartTimeInterval());
+				System.out.println(skier.getStartTimeInterval());
+				test = test.plusSeconds(15);
+			}
 		}
 		
 //		pusuit-start 3 
@@ -120,22 +117,52 @@ public class SkiTimerLogic extends Contestant{
 			
 		}
 		
-//		Takes interval.
+		System.out.println(contestants);
+	}
+	
+	public void getTimeForContestant(String option, String startNumber, String competitionType) {
 		if(option.equals("Lap")) {
+		
 			for(Contestant skier : contestants) {
-				if(skier.getStartNumber().equals(startNumber) && (counter1 >0)) {
-				skier.lapTime2();
-//				skier.getInterval();
+				System.out.println(skier.getStartTimeInterval() + "TEST*****");
+				if(skier.getStartNumber().equals(startNumber)) {
+					if(competitionType.equals("Interval15") || competitionType.equals("Interval30")) {
+						
+						if(stringToInt(skier.getCurrentTime()) > 0) {
+							skier.setInterval(skier.getCurrentTime());
+						}else {
+							System.out.println("Contestant hasn't started the race yet.");
+							skier.setInterval("00:00:00");
+						}
+						
+					}else {
+						skier.lapTime2();
+					}
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getInterval())));
 				counter1--;
+				//skier.resetTimer();
+				break;
 				}
 			}
+			
 		}
 		
 		if(option.equals("Goal")) {
 			for(Contestant skier : contestants) {
 				if(skier.getStartNumber().equals(startNumber) && (counter2 >0)) {
-				skier.lapTime3();
+					if(competitionType.equals("Interval15") || competitionType.equals("Interval30")) {
+						
+						if(stringToInt(skier.getCurrentTime()) > 0) {
+							skier.setGoal(skier.getCurrentTime());
+						}else {
+							System.out.println("Contestant hasn't started the race yet.");
+							skier.setInterval("00:00:00");
+						}
+						
+					}else {
+
+						skier.lapTime3();
+					}
 //				skier.getGoal();
 				Collections.sort(contestants, Comparator.comparingInt(c -> stringToInt(c.getGoal())));
 				counter2--;
@@ -149,57 +176,7 @@ public class SkiTimerLogic extends Contestant{
 			System.out.println("Competition over");
 		}
 		
-		
-		System.out.println(contestants);
 	}
-
-//	private void setIntervalTime(int intervalTimeset) {
-//		String hours= "10";
-//        String minutes = "00";
-//        String seconds = "00";
-//        
-//        int timeHours = 10;
-//        int timeMinutes = 0;
-//        int timeSeconds = 0;
-//        
-//        
-//        
-//		for(Contestant skier : contestants) {
-//			skier.setStartTime();
-//			String addingTime = hours + ":" + minutes + ":" + seconds;
-//			skier.lapTime0(addingTime);
-//			timeSeconds += intervalTimeset;
-//			
-//			if(timeSeconds >= 60) {
-//				timeSeconds = 0;
-//				seconds = "00";
-//				timeMinutes += 1;
-//			}else {
-//				seconds = Integer.toString(timeSeconds);
-//			}
-//			
-//			if(timeMinutes >= 60) {
-//				timeMinutes = 0;
-//				minutes = "00";
-//				timeHours += 1;
-//			}else {
-//				minutes = "0" + Integer.toString(timeMinutes);
-//			}
-//			
-//			if(timeHours >= 24) {
-//				timeHours = 1;
-//				hours = "01";
-//			}else {
-//				hours = Integer.toString(timeHours);
-//			}
-//			
-//			if(timeHours < 10) {
-//				
-//				hours = "0" + Integer.toString(timeHours);
-//			}
-//		
-//		}
-//	}
 
 
 //	Måste även spara för jakt-start och följa rätt syntax:

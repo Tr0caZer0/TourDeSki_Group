@@ -11,18 +11,27 @@ public class Timer {
 
     protected Instant startTime;
     protected Instant endTime;
-    protected String intervalTime;
+    protected Instant intervalTime;
     protected boolean isRunning;
     protected List<Duration> lapTimes;
 
     public Timer() {
         lapTimes = new ArrayList<>();
         isRunning = false;
+        
     }
 
     public void setStartTime() {
         if (!isRunning) {
         		startTime = Instant.now();
+                isRunning = true;
+                lapTimes.clear();
+        }
+    }
+    
+    public void setStartTime(Instant newTime) {
+        if (!isRunning) {
+        		startTime = newTime;
                 isRunning = true;
                 lapTimes.clear();
         }
@@ -35,16 +44,31 @@ public class Timer {
 //     }
 //    
     public void setStartTimeInterval(Instant test) {
-        
-        	if(startTime == null) {
-        		startTime = test;
-        	}else{
-        		startTime = test;
-        	}
-        		
-             isRunning = true;
+    	 if (startTime == null) {
+    	        startTime = test;
+    	        isRunning = true;
+    	    }
         
     }
+//    public void setIntervalTime() {
+//        intervalTime = Instant.now();
+//        isRunning = true;
+//        
+//    }
+    
+    public void setIntervalTime() {
+		this.intervalTime = Instant.now();
+}
+    //För att anta ett intervallVärde
+    public void setIntervalTime(Instant intervalTime) {
+    		this.intervalTime = intervalTime;
+    }
+    
+    public Instant getIntervalTime() {
+    	return intervalTime;
+    }
+    
+
     
     public String getStartTimeInterval() {
     	if(startTime != null) {
@@ -55,13 +79,9 @@ public class Timer {
     	
     }
     
+    // För att hämta tidsvärdet som Instant. 
     public Instant getInstantStartTimeInterval() {
-    	if(startTime != null) {
     		return startTime;
-    	}else {
-    		return null;
-    	}
-    	
     }
     
     public String getStartTimer() {
@@ -83,12 +103,19 @@ public class Timer {
     public String getStopTimer() {
     	return formatInstant(endTime);
     }
-
+    
+    public void resetInterval(){
+    	intervalTime = null;
+    }
     public void resetTimer() {
         isRunning = false;
         startTime = null;
+        intervalTime = null;
         endTime = null;
         lapTimes.clear();
+        System.out.println("timer reset");
+        System.out.println(startTime);
+        System.out.println(isRunning);
     }
     
 //    public void lapTime0() {
@@ -103,10 +130,20 @@ public class Timer {
 //        if (isRunning) {
 //            Instant splitTime = Instant.now();
 //            Duration duration = Duration.between(startTime, splitTime);
-//            intervalTime = formatDuration(duration);
+//            lapTimes.add(duration);
 //        }
 //    }
-    
+    public String getCurrentIntervalTime() {
+        if (isRunning) {
+            Duration duration = Duration.between(startTime, Instant.now());
+            return formatDuration(duration);
+        } else if (startTime != null && endTime != null) {
+            Duration duration = Duration.between(startTime, endTime);
+            return formatDuration(duration);
+        } else {
+            return "00:00:00";
+        }
+    }
 
     public String getCurrentTime() {
         if (isRunning) {
