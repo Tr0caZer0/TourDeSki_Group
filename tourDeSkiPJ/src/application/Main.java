@@ -1,3 +1,29 @@
+/*
+ * Förljande programs funktionalitet bygger på ett samspel mellan 4 klasser som ger visualitet samt funtkionalitet
+ * samt en utomståden klass som används för registrering av användare före lopp. 
+ * 
+ * Programmet startas och körs utifrån Main. 
+ * Du som användare börjar med att välja vilket lopp du vill starta genom att ange groupId och sedan välja startallternativ. 
+ * 
+ * Det finns sparade dokument som du kan använda för alla starttyper. groupId "1" för Mass- och Intervallstart,
+ * och groupId "11" & "12" för jaktstart. 
+ * Du kan spara en tävlig genom att trycka på "save file". Tävlingen kommer att sparas i två olika dokument, varav ett
+ * är för jaktstart (det gäller inte när man kör jaktstart). 
+ * 
+ * Efter att du har valt startallternativ så öppnas ett nytt fönster och först när du trycker på "start" börjar loppet. 
+ * Under loppets gång kan du hämta tiden för diverse deltagare. 
+ * Du hämtar intervaltiden genom att välja startnummer för önskad deltagare och sedan genom att trycka 
+ * på "Take Time" och startnummer + "Finish" för att hämta sluttid. 
+ * Tryck "Stop" för att avsluta matchen och appen kommer att stängas av.  
+ * 
+ *
+ * @Author Eric
+ * @Author Andera
+ * @Author Katarian
+ * @Author Bastian 
+ * @Date 24-01-07
+ * */
+
 package application;
 
 import javafx.application.Application;

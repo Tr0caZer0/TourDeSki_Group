@@ -243,7 +243,12 @@ public class SkiTimerLogic extends Contestant{
 		//Omvandlar sluttid till till int
 		for(Contestant skier : contestants) {
 			String [] toSplitTime = skier.getGoal().split(":");
-			listEndTime.add(Integer.parseInt(toSplitTime[2]));
+			int seconds = (Integer.parseInt(toSplitTime[2]));
+			int minutes = (Integer.parseInt(toSplitTime[1]) * 60);
+			int hours = (Integer.parseInt(toSplitTime[0]) * 3600);
+			int totalTime = seconds+hours+minutes;
+			
+			listEndTime.add(totalTime);
 		}
 		
 		List<Integer> difference = new ArrayList<>();

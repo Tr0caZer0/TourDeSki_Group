@@ -61,7 +61,7 @@ public class Registration {
 //				Lade till tävlings-typ samt ändrade filnamn. Så att vi kan välja korrekt tävlingstyp i Main-klassen. 
 				System.out.println("Enter group id number:");
 				String groupId = scanner.nextLine();
-				System.out.println("Enter competition type (Mass, Interval15, Interval30, pursuit):");
+				System.out.println("Enter competition type (Mass, Interval15, Interval30):");
 				String competitionType = scanner.nextLine();
 				String raceId = "CompetitionId" + groupId +"_CompetitionType" + competitionType + ".txt";
 				try {
