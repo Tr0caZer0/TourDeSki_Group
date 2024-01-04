@@ -27,14 +27,13 @@ public class Registration {
 			int choice = scanner.nextInt();
 
 			switch (choice) {
-			case 0:
+			case 0: //Avslutar programmet. 
 				continueLoop=false;
 				System.out.println("Registration cancelled");
-//				Lade till system.exit så att programmet avslutas efter att lista skapats. 
 				System.exit(0);
 				break;
 //			Uppdaterade StartNummer till String.
-			case 1:
+			case 1:// Anger startnummer samt namn för deltagare. 
 				System.out.println("Enter startnumber:");
 				String startNumber = scanner.nextLine();
 				System.out.println("Enter name:");
@@ -44,7 +43,7 @@ public class Registration {
 				contestant.setName(name);
 				contestants.add(contestant);
 				break;
-			case 2:
+			case 2:// Skriver ut alla deltagare. Finns inte möjlighet till korregering. 
 				if(contestants.isEmpty()) {
 					System.out.println("No contestants have been added to the list");
 				}
@@ -53,12 +52,12 @@ public class Registration {
 				}
 				break;
 				
-			case 3:
+			case 3:// Avgör namnet för dokumentet för deltaganden. Finns ingen felhantering so om inte Mass, Interval15 eller Interval30
+//				Skrivs korrekt så kommer inte filen att lästa under SkiTimerLogic.
 				if(contestants.isEmpty()) {
 					System.out.println("No contestants have been added to the list");	
 				}
-				else {
-//				Lade till tävlings-typ samt ändrade filnamn. Så att vi kan välja korrekt tävlingstyp i Main-klassen. 
+				else {			
 				System.out.println("Enter group id number:");
 				String groupId = scanner.nextLine();
 				System.out.println("Enter competition type (Mass, Interval15, Interval30):");

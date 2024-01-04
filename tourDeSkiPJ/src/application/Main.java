@@ -61,11 +61,14 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
 	
 	Label welcome;
+	// Val av tävlingstyp. 
 	Button start1;
 	Button start2;
 	Button start3;
 	Button start4;
+	// Tar bort sifferinmatning. 
 	Button clear2;
+	// Siffror för inmatning
 	Button nr0;
 	Button nr1;
 	Button nr2;
@@ -76,17 +79,25 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button nr7;
 	Button nr8;
 	Button nr9;
+	// Fösta fönstret som öppnas när programmet startas. 
 	Scene scene2;
+	// Söker på sifferinmating. 
 	TextField search2;
 	GridPane grid;
 	
 //	Second window
+	// Startar loppet
 	Button start;
+	//Hämtar tid
 	Button takeTime;
 	Button finish;
+	// Stänger av app
 	Button stop;
+	//Sparar data till fil. 
 	Button saveFile;
+	// Tar bort sifferinmatning. 
 	Button clear;
+	// Siffror för inmatning
 	Button nr00;
 	Button nr11;
 	Button nr22;
@@ -97,22 +108,27 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 	Button nr77;
 	Button nr88;
 	Button nr99;
+	// Tom knapp
 	Button blank;
 	Label header;
+	//Andra fönstret som öppnas
 	Scene scene1;
+	// Söker på sifferinmatning. 
 	TextField search;
 	GridPane grid2;
 	
+	//Ger tabellerna i fönstret. 
 	TableView<Contestant> resultTable;
+	//Visar deltagardata i fönster.  
 	ObservableList<Contestant> resultList;
 	
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-//		start1.setOnAction(e -> {primaryStage.setScene(scene2); logic.skierList("1", "Mass");}); 
+
 			primaryStage.setTitle("Ski timer");
-			
+//			Start för Mass-start.
 			start1 = new Button();		
 			start1.setText("Mass");
 			start1.setOnAction(e -> {primaryStage.setScene(scene2); 
@@ -121,8 +137,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 									logic.skierList(groupNumber, "Mass");
 									}); // Här måste logiken för start-valet in. 
 																	//Så att rätt inställningar körs i nästa fönster
-			start1.setMinSize(100, 54);								// Jag tänker också att var och en av startvalsknapparna ska 
-			start1.setMaxSize(100, 54);								//funka som "OK" för "Search group"-fältet
+			start1.setMinSize(100, 40);								// Jag tänker också att var och en av startvalsknapparna ska 
+			start1.setMaxSize(100, 40);								//funka som "OK" för "Search group"-fältet
 			start1.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
 			start1.setStyle(
 					 "-fx-background-color: #CCD8A2 ; "
@@ -131,7 +147,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-		
+//			Start för Intervall 15 sec.
 			start2 = new Button();		
 			start2.setText("Interval15");
 			start2.setOnAction(e -> {primaryStage.setScene(scene2); 
@@ -139,8 +155,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 									this.startType = "Interval15";
 									logic.skierList(groupNumber, "Interval15");
 							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
-			start2.setMinSize(100, 54);
-			start2.setMaxSize(100, 54);
+			start2.setMinSize(100, 40);
+			start2.setMaxSize(100, 40);
 			start2.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
 			start2.setStyle(
 					 "-fx-background-color: #EFE2AF ; "
@@ -149,7 +165,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-			
+//			Start för Intervall 30 sec. 
 			start3 = new Button();		
 			start3.setText("Interval30");
 			start3.setOnAction(e -> {primaryStage.setScene(scene2); 
@@ -157,8 +173,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 									startType = "Interval30";
 									logic.skierList(groupNumber, "Interval30");
 							});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
-			start3.setMinSize(100, 54);
-			start3.setMaxSize(100, 54);
+			start3.setMinSize(100, 40);
+			start3.setMaxSize(100, 40);
 			start3.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
 			start3.setStyle(
 					 "-fx-background-color: #EFE2AF ; "
@@ -167,7 +183,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+ "-fx-border-width: 1px;"
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
-			
+//			Start för jaktstart. 
 			start4 = new Button();		
 			start4.setText("Pursuit");
 			start4.setOnAction(e -> {primaryStage.setScene(scene2);
@@ -175,8 +191,8 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 									startType = "Pursuit";
 									logic.skierList(groupNumber, "Pursuit");
 			});// Här måste logiken för start-valet in. Så att rätt inställningar körs i nästa fönster
-			start4.setMinSize(100, 54);
-			start4.setMaxSize(100, 54);
+			start4.setMinSize(100, 40);
+			start4.setMaxSize(100, 40);
 			start4.setFont(Font.font("Arial", FontWeight.BOLD ,10 ));
 			start4.setStyle(
 					 "-fx-background-color: #F8AB81 ; "
@@ -373,7 +389,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			//Grid till sifferknapparna
 			grid = new GridPane();
-			grid.setPadding(new Insets(6));
+			grid.setPadding(new Insets(3));
 			grid.setVgap(2);
 			grid.setHgap(2);
 			grid.setConstraints(nr1,0, 0);
@@ -393,7 +409,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			//VBox till startknapparna
 			VBox startVbox = new VBox();
-			startVbox.setPadding(new Insets(0));
+			startVbox.setPadding(new Insets(3));
 			startVbox.setSpacing(2);
 			startVbox.alignmentProperty().setValue(Pos.CENTER);
 			startVbox.getChildren().addAll( start1, start2, start3, start4);
@@ -423,38 +439,12 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			//Svart ram runt hela alltet
 			 borderPane2.setStyle("-fx-border-color: #6F7178; -fx-border-width: 3px;");		
-			/*
-			//VBox till startknapparna
-			VBox startVbox = new VBox();
-			startVbox.setPadding(new Insets(0));
-			startVbox.setSpacing(2);
-			startVbox.alignmentProperty().setValue(Pos.CENTER);
-			startVbox.getChildren().addAll(welcome, start1, start2, start3);
 		
-			//VBox till bottendelen av BorderPane
-			VBox bottom2 = new VBox();
-			bottom2.setPadding(new Insets(0));
-			bottom2.setSpacing(0);
-			bottom2.setPadding(new Insets (15));
-			bottom2.setAlignment(Pos.TOP_CENTER);
-			bottom2.getChildren().addAll(search, grid);
-			
-			
-			//Hela layouten in i BorderPane
-			BorderPane borderPane2 = new BorderPane();
-			borderPane2.setBottom(bottom2);
-			borderPane2.setCenter(startVbox);
-			startVbox.setAlignment(Pos.CENTER);
-			
-			*/
 			
 			
 			//SIDA TVÅ
 			
-		
-			//Många många knappar!
-			
-			//Start-knapp
+			//Start-knapp, startar racet. 
 			start = new Button();
 			start.setText("Start");
 			start.setMinSize(100, 40);
@@ -462,6 +452,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			start.setOnAction(e -> {System.out.println("Klockan startas"); 
 										System.out.println(startType);
 										logic.addTimeToContestant(startType);
+//										Ser till så att deltagr data uppdateras i realtid.
 										Platform.runLater(() -> {
 										    resultList.setAll(logic.contestants);
 										});
@@ -474,7 +465,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-background-radius: 3px; "
 					+"-fx-border-radius: 3px;");
 			
-			//Reset-knapp
+			//Stopp-knapp, avslutar och stänger av programmet. 
 			stop = new Button();
 			stop.setText("Stop");
 			stop.setOnAction(event -> {
@@ -492,7 +483,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			//Calls to stop the application	
 			
 			
-			//Mellantidsknapp
+			//Mellantidsknapp, hämtar tiden vid intervall. 
 			takeTime = new Button();
 			takeTime.setText("Take time");
 			takeTime.setOnAction(e ->{
@@ -501,6 +492,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					 	System.out.println(startNumber);
 						logic.getTimeForContestant("Lap", startNumber2, startType);	
 						search.setText("");
+//						Ser till så att deltagr data uppdateras i realtid.
 						Platform.runLater(() -> {
 						    resultList.setAll(logic.contestants);
 						});
@@ -519,7 +511,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 					+"-fx-border-radius: 3px;");
 	
 
-			//Slutresultatsknapp
+			//Slutresultatsknapp, hämtar tiden vid målgång. 
 			finish = new Button();
 			finish.setText("Finish");
 //			Stoppa tid, töm fönster med lista.
@@ -528,6 +520,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			String startNumber = search.getText();
 			logic.getTimeForContestant("Goal", startNumber, startType);	
 			search.setText("");
+//			Ser till så att deltagr data uppdateras i realtid.
 			Platform.runLater(() -> {
 			    resultList.setAll(logic.contestants);
 			});
@@ -604,32 +597,41 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			
 			
-			//Listan med åkare
+//			Ser till så att kolumer uppdateras med relevent data. Under knapparna för Start, takeTime och finish.  
 			resultList = FXCollections.observableArrayList(logic.contestants);
 			
+//			Kolumn för startnummer
 			TableColumn <Contestant, String> nrColumn = new TableColumn <> ("NR");
-			nrColumn.setMinWidth(22);
+			nrColumn.setMinWidth(18);		
+			nrColumn.setMaxWidth(18);
 			nrColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			nrColumn.setCellValueFactory(new PropertyValueFactory<> ("startNumber"));
 			
-			TableColumn <Contestant, String> nameColumn = new TableColumn <>("Name");
-			nameColumn.setMinWidth(150);
+//			Kolumn för deltagarnamn
+			TableColumn <Contestant, String> nameColumn = new TableColumn <>("NAME");
+			nameColumn.setMinWidth(120);
+			nameColumn.setMaxWidth(120);
 			nameColumn.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			nameColumn.setCellValueFactory(new PropertyValueFactory<>( "name"));
 			
-//			Add startTime
+//			Kolumn för starttid
 			TableColumn <Contestant, String> timeColumn0 = new TableColumn <> ("START"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
-			timeColumn0.setMinWidth(60);
+			timeColumn0.setMinWidth(50);
+			timeColumn0.setMaxWidth(50);
 			timeColumn0.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			timeColumn0.setCellValueFactory(new PropertyValueFactory <> ("times"));
-					
+			
+//			Kolumn för intervaltid
 			TableColumn <Contestant, String> timeColumn1 = new TableColumn <> ("SPLIT"); //HÄR MÅSTE TIDSOBJEKTET FIPPLAS IHOP 
-			timeColumn1.setMinWidth(60);
+			timeColumn1.setMaxWidth(50);
+			timeColumn1.setMaxWidth(50);
 			timeColumn1.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			timeColumn1.setCellValueFactory(new PropertyValueFactory <> ("interval"));
 			
+//			Kolumn för sluttid
 			TableColumn <Contestant, String> timeColumn2 = new TableColumn <>("GOAL"); // Kopplat till samma som timeColumn1 för nu.
-			timeColumn2.setMinWidth(60);
+			timeColumn2.setMinWidth(50);
+			timeColumn2.setMaxWidth(50);
 			timeColumn2.setStyle("-fx-font-family: 'Arial'; -fx-font-size: 8;");
 			timeColumn2.setCellValueFactory(new PropertyValueFactory <> ("goal"));
 			
@@ -781,7 +783,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			//Grid till sifferknapparna
 		
 			grid2 = new GridPane();
-			grid2.setPadding(new Insets(6));
+			grid2.setPadding(new Insets(3));
 			grid2.setVgap(2);
 			grid2.setHgap(2);
 			grid2.setConstraints(nr11,0, 0);
@@ -801,7 +803,7 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 			
 			//VBox till de stora knapparna
 			VBox bigButtons = new VBox();
-			bigButtons.setPadding(new Insets(0));
+			bigButtons.setPadding(new Insets(3));
 			bigButtons.setSpacing(2);
 			bigButtons.alignmentProperty().setValue(Pos.CENTER);
 			bigButtons.getChildren().addAll(start, takeTime, finish, stop);

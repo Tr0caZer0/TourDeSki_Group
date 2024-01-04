@@ -67,6 +67,7 @@ public class Timer {
         endTime = null;
     }
 
+    //Metoden hämtar tiden mellan starttid och intervall, samt tiden mellan startid och målgång.
     public String getCurrentTime() {
         if (isRunning) {
             Duration duration = Duration.between(startTime, Instant.now());
@@ -77,19 +78,21 @@ public class Timer {
         } else {
             return "00:00:00";
         }
-    }
+    }// End getCurrentTime method
 
+    // Metoden Omvandlar Duration till String
     private String formatDuration(Duration duration) {
         long hours = duration.toHours();
         long minutes = duration.toMinutesPart();
         long seconds = duration.toSecondsPart();
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
-    }
+    }// End formatDuration method
     
-    //Konverterar Instant till String
+    //Metoden Konverterar Instant till String
     private String formatInstant(Instant instant) {
     	DateTimeFormatter formatInstantTime = DateTimeFormatter.ofPattern("HH:mm:ss");
     	String formattedTime = formatInstantTime.format(instant.atZone(ZoneId.systemDefault()));
         return formattedTime;
-    }
+    } // End formatInstant method
+    
 }// End class
