@@ -186,7 +186,7 @@ public class SkiTimerLogic extends Contestant{
 			}
 		}// End if-statement Goal
 		
-//		Måste korrigeras. 
+
 //		Tänkt att fungera som en begränsing. 
 		if(counter1 <= 0 && counter2 <= 0) {
 			saveCompetitionScore();
@@ -288,4 +288,5 @@ public class SkiTimerLogic extends Contestant{
 		System.out.println(message);
 		System.exit(0);
 	}// End quitApp() method
+	
 }// End Logic class
