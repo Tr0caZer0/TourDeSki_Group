@@ -47,8 +47,8 @@ public class SkiTimerLogic extends Contestant{
 				String startNumber = part[0];
 				String name = part[1];
 				if(competitionType.equals("Pursuit")) {
-					String toGetPrusitTime = part[4];
-					skier = new Contestant(startNumber,name, toGetPrusitTime);
+					String toGetPursuitTime = part[4];
+					skier = new Contestant(startNumber,name, toGetPursuitTime);
 				}else {
 					skier = new Contestant(startNumber,name);
 				}
